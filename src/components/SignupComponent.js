@@ -87,7 +87,7 @@ const SignupComponent = ({ changeView }) => {
         </p>
         <div className={styles.sigin_wrapper}>
           <div className={styles.form}>
-            <span>
+            <span className={styles.input_span}>
               <FontAwesomeIcon icon={faEnvelope} className={styles.icon} />
               <input
                 type="email"
@@ -100,7 +100,7 @@ const SignupComponent = ({ changeView }) => {
                 autoComplete="off"
               />
             </span>
-            <span>
+            <span className={styles.input_span}>
               <FontAwesomeIcon icon={faUser} className={styles.icon} />
               <input
                 type="text"
@@ -114,7 +114,7 @@ const SignupComponent = ({ changeView }) => {
               />
             </span>
 
-            <span>
+            <span className={styles.input_span}>
               <FontAwesomeIcon icon={faLock} className={styles.icon} />
               <input
                 type="password"
@@ -125,7 +125,7 @@ const SignupComponent = ({ changeView }) => {
               />
             </span>
 
-            <span>
+            <span className={styles.input_span}>
               <FontAwesomeIcon icon={faLock} className={styles.icon} />
               <input
                 type="password"

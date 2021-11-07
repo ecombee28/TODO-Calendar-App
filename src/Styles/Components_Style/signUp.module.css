@@ -83,6 +83,12 @@
     background-color: transparent;
 }
 
+.input_span {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .signin_btn {
     width: 100%;
     padding: 10px;

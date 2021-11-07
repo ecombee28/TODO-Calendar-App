@@ -70,7 +70,7 @@ const SignInComponent = ({ changeView }) => {
         </p>
         <div className={styles.sigin_wrapper}>
           <div className={styles.form}>
-            <span>
+            <span className={styles.input_span}>
               <FontAwesomeIcon icon={faUser} className={styles.icon} />
               <input
                 type="text"
@@ -82,8 +82,7 @@ const SignInComponent = ({ changeView }) => {
                 autoComplete="off"
               />
             </span>
-
-            <span>
+            <span className={styles.input_span}>
               <FontAwesomeIcon icon={faLock} className={styles.icon} />
               <input
                 type="password"
