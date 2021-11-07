@@ -11,7 +11,7 @@
 }
 
 .title {
-    font-size: 3rem;
+    font-size: clamp(1.8rem, 4vw, 3rem);
     font-weight: 600;
 }
 
@@ -27,7 +27,7 @@
     position: absolute;
     top: 20px;
     right: 90px;
-    font-size: 1.8rem;
+    font-size: clamp(1rem, 3vw, 1.8rem);
     color: #fff;
     cursor: pointer;
 }
