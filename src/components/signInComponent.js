@@ -1,0 +1,111 @@
+import React, { useState } from "react";
+import styles from "../Styles/Components_Style/signIn.module.css";
+import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useNavigate } from "react-router-dom";
+
+const SignInComponent = ({ changeView }) => {
+  const [userName, setUserName] = useState("");
+  const [password, setPassword] = useState("");
+  const [errorMsg, setErrorMsg] = useState("");
+  let navigate = useNavigate();
+
+  const updateUserName = (e) => {
+    setUserName(e.target.value);
+  };
+
+  const updatePassword = (e) => {
+    setPassword(e.target.value);
+  };
+
+  const handleFormValidation = () => {
+    let error = false;
+
+    if (userName.length < 4) {
+      error = true;
+      setErrorMsg("Username must be longer then 4 characters");
+    } else if (userName.length > 12) {
+      error = true;
+      setErrorMsg("Username can't exceed 12 characters");
+    } else if (password.length > 12) {
+      error = true;
+      setErrorMsg("Password can't exceed 12 characters");
+    }
+
+    if (!error) {
+      setErrorMsg("");
+      signIn();
+    } else {
+      setTimeout(() => {
+        setErrorMsg("");
+      }, 4000);
+    }
+  };
+
+  const signIn = () => {
+    if (userName === "admin" && password === "123456") {
+      navigate("/Home");
+    } else {
+      setErrorMsg("The username and/or password is incorrect");
+      setTimeout(() => {
+        setErrorMsg("");
+      }, 6000);
+    }
+  };
+
+  return (
+    <div>
+      <div className={styles.signin_container}>
+        <p className={styles.title}>Sign In</p>
+        <p className={styles.signUp}>
+          New to RemindMe?{" "}
+          <span onClick={() => changeView("signup")}>Sign Up</span>
+        </p>
+        <div className={styles.sigin_wrapper}>
+          <div className={styles.form}>
+            <span>
+              <FontAwesomeIcon icon={faUser} className={styles.icon} />
+              <input
+                type="text"
+                placeholder="Username"
+                className={styles.input_field}
+                value={userName}
+                required
+                onChange={updateUserName}
+                autoComplete="off"
+              />
+            </span>
+
+            <span>
+              <FontAwesomeIcon icon={faLock} className={styles.icon} />
+              <input
+                type="password"
+                placeholder="Password"
+                className={styles.input_field}
+                value={password}
+                onChange={updatePassword}
+              />
+            </span>
+
+            <button
+              className={styles.signin_btn}
+              onClick={handleFormValidation}
+            >
+              Sign In
+            </button>
+
+            <div
+              className={`${styles.error_msg} ${
+                errorMsg.length > 0 && styles.show_error_msg
+              }`}
+            >
+              <p>{errorMsg}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default SignInComponent;
