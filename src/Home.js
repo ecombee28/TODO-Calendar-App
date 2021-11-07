@@ -19,7 +19,7 @@ const Home = () => {
     };
 
     getUserName();
-  }, []);
+  });
 
   const signOut = () => {
     window.sessionStorage.removeItem("username");
