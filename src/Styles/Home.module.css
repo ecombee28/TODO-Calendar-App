@@ -14,3 +14,20 @@
     font-size: 3rem;
     font-weight: 600;
 }
+
+.logo {
+    width: 200px;
+    object-fit: cover;
+    position: absolute;
+    top: 20px;
+    left: 40px;
+}
+
+.sign_out {
+    position: absolute;
+    top: 20px;
+    right: 90px;
+    font-size: 1.8rem;
+    color: #fff;
+    cursor: pointer;
+}

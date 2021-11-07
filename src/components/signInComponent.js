@@ -3,11 +3,13 @@ import styles from "../Styles/Components_Style/signIn.module.css";
 import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
+import Loader from "react-loader-spinner";
 
 const SignInComponent = ({ changeView }) => {
   const [userName, setUserName] = useState("");
   const [password, setPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
+  const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
   const updateUserName = (e) => {
@@ -44,7 +46,12 @@ const SignInComponent = ({ changeView }) => {
 
   const signIn = () => {
     if (userName === "admin" && password === "123456") {
-      navigate("/Home");
+      setLoading(true);
+      window.sessionStorage.setItem("username", userName);
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/Home");
+      }, 4000);
     } else {
       setErrorMsg("The username and/or password is incorrect");
       setTimeout(() => {
@@ -91,7 +98,18 @@ const SignInComponent = ({ changeView }) => {
               className={styles.signin_btn}
               onClick={handleFormValidation}
             >
-              Sign In
+              <span>
+                Sign In
+                {loading && (
+                  <Loader
+                    type="ThreeDots"
+                    color="#b9e6e3"
+                    height={40}
+                    width={40}
+                    className={styles.loader}
+                  />
+                )}
+              </span>
             </button>
 
             <div

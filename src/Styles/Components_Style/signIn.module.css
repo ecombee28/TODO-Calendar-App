@@ -91,8 +91,15 @@
     background-color: var(--orange);
     cursor: pointer;
     border: none;
+    position: relative;
     -webkit-box-shadow: 5px 4px 11px 0px rgba(0, 0, 0, 0.21);
     box-shadow: 5px 4px 11px 0px rgba(0, 0, 0, 0.21);
+}
+
+.loader {
+    position: absolute;
+    right: 20px;
+    top: 8px;
 }
 
 .icon {
