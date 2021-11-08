@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Styles/Home.module.css";
 import Nav from "./components/Nav";
-import logo from "./images/logo.png";
 
 const Home = () => {
   const [userName, setUserName] = useState("");

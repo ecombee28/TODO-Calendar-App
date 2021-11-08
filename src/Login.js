@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styles from "./Styles/Login.module.css";
 import SignInComponent from "./components/signInComponent";
 import SignupComponent from "./components/SignupComponent";
-import logo from "../src/images/logo.png";
+import logo from "../src/images/blue_logo.png";
 
 const Login = () => {
   const [signUp, setSignUp] = useState(false);
