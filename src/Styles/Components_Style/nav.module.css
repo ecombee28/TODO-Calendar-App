@@ -103,6 +103,7 @@
         width: 100%;
         height: 3px;
         background-color: rgb(48, 48, 48);
+        outline: none;
     }
     .slide_line1 {
         transform: rotate(-45deg) translate(-4px, 6px);
