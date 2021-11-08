@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Styles/Home.module.css";
-import logo from "../src/images/logo.png";
+import Nav from "./components/Nav";
+import logo from "./images/logo.png";
 
 const Home = () => {
   const [userName, setUserName] = useState("");
@@ -29,11 +30,7 @@ const Home = () => {
   return (
     <>
       <div className={styles.main_container}>
-        <img src={logo} alt="" className={styles.logo} />
-        <p className={styles.title}>Welcome {userName}</p>
-        <p className={styles.sign_out} onClick={signOut}>
-          Sign out
-        </p>
+        <Nav user={userName} signOut={signOut} />
       </div>
     </>
   );
