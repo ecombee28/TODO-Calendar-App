@@ -97,6 +97,7 @@
         top: 30px;
         left: 25px;
         cursor: pointer;
+        outline: none;
     }
     .line1, .line2, .line3 {
         width: 100%;
