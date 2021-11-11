@@ -23,15 +23,12 @@ const SignInComponent = ({ changeView }) => {
   const handleFormValidation = () => {
     let error = false;
 
-    if (userName.length < 4) {
+    if (userName.length < 4 || userName.length > 12) {
       error = true;
-      setErrorMsg("Username must be longer then 4 characters");
-    } else if (userName.length > 12) {
+      setErrorMsg("Username must be between 4 and 12 characters");
+    } else if (password.length < 4 || password.length > 12) {
       error = true;
-      setErrorMsg("Username can't exceed 12 characters");
-    } else if (password.length > 12) {
-      error = true;
-      setErrorMsg("Password can't exceed 12 characters");
+      setErrorMsg("Password must be between 4 and 12 characters");
     }
 
     if (!error) {
@@ -40,6 +37,7 @@ const SignInComponent = ({ changeView }) => {
     } else {
       setTimeout(() => {
         setErrorMsg("");
+        setPassword("");
       }, 4000);
     }
   };

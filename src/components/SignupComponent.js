@@ -42,12 +42,17 @@ const SignupComponent = ({ changeView }) => {
     } else if (userName.length < 4 || userName.length > 12) {
       error = true;
       setErrorMsg("Username must be between 4 and 12 characters");
-    } else if (password.length < 4 || password.length > 12) {
-      error = true;
-      setErrorMsg("Password must be between 4 and 12 characters");
     } else if (password.length < 1 || confirmedPassword.length < 1) {
       error = true;
-      setErrorMsg("Invalid password");
+      setErrorMsg("Both Password's are required!");
+    } else if (
+      password.length < 4 ||
+      password.length > 12 ||
+      confirmedPassword.length < 4 ||
+      confirmedPassword.length > 12
+    ) {
+      error = true;
+      setErrorMsg("Passwords must be between 4 and 12 characters");
     } else if (confirmedPassword !== password) {
       error = true;
       setErrorMsg("Passwords must match");

@@ -1,35 +1,23 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import styles from "./Styles/Home.module.css";
 import Nav from "./components/Nav";
+import CalendarComp from "./components/CalendarComp";
 
 const Home = () => {
-  const [userName, setUserName] = useState("");
-  let navigate = useNavigate();
+  const [bringIntoView, setBringIntoView] = useState("home");
 
-  useEffect(() => {
-    const getUserName = () => {
-      let user = window.sessionStorage.getItem("username");
-
-      if (!user) {
-        navigate("/");
-      } else {
-        setUserName(user);
-      }
-    };
-
-    getUserName();
-  });
-
-  const signOut = () => {
-    window.sessionStorage.removeItem("username");
-    navigate("/");
+  const changeComponentView = (view) => {
+    setBringIntoView(view);
   };
 
   return (
     <>
       <div className={styles.main_container}>
-        <Nav user={userName} signOut={signOut} />
+        <Nav changeView={changeComponentView} />
+        <div className={styles.content_container}>
+          <h2>{bringIntoView}</h2>
+          {bringIntoView === "calendar" && <CalendarComp />}
+        </div>
       </div>
     </>
   );
