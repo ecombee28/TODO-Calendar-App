@@ -34,8 +34,8 @@ const events = [
   },
   {
     title: "Vacation",
-    start: new Date(2021, 10, 7, 7, 0),
-    end: new Date(2021, 10, 10, 7, 0),
+    start: new Date(2021, 10, 7, 6, 0),
+    end: new Date(2021, 10, 10, 24, 0),
     eventDetail: "Vacation to Disneyland and the beach",
     id: 2,
   },
