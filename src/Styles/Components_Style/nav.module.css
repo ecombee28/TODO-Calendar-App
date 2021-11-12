@@ -1,6 +1,6 @@
 .nav {
     width: 12vw;
-    min-width: 200px;
+    min-width: 230px;
     min-height: 100vh;
     height: 100%;
     background-color: var(--blue);
@@ -105,12 +105,14 @@
         height: 3px;
         background-color: rgb(48, 48, 48);
         outline: none;
+        transition: all .4s ease-out;
     }
     .line2 {
         width: 80%;
         height: 3px;
         background-color: rgb(48, 48, 48);
         outline: none;
+        transition: all .4s ease-out;
     }
     .slide_line1 {
         transform: rotate(-45deg) translate(-4px, 7px);
@@ -126,7 +128,7 @@
         transition: all .5s cubic-bezier(0.25, 0.1, 0.56, 0.96);
     }
     .move_hamburger {
-        transform: translateX(175px);
+        transform: translateX(205px);
         top: 10px;
         left: 25px;
         transition: all .4s ease-out;

@@ -1,0 +1,23 @@
+.rbc-toolbar-label {
+    font-size: clamp(1.2rem, 3vw, 2rem);
+}
+
+.rbc-btn-group button {
+    cursor: pointer;
+}
+
+.rbc-header {
+    background-color: var(--blue);
+    font-size: clamp(1rem, 3vw, 1.6rem);
+    color: var(--white);
+    padding: 10px;
+}
+
+.rbc-event {
+    background-color: var(--orange);
+    outline: none;
+}
+
+.rbc-event .rbc-event-content {
+    font-size: clamp(.7rem, 3vw, 1.3rem);
+}
