@@ -60,7 +60,7 @@ const events = [
     start: new Date(2021, 11, 2, 19, 0),
     end: new Date(2021, 11, 2, 22, 0),
     eventDetail: "You are in charge of the food don't forget",
-    id: 4,
+    id: 5,
   },
 
   {
@@ -69,7 +69,7 @@ const events = [
     start: new Date(2021, 11, 25, 6, 0),
     end: new Date(2021, 11, 25, 24, 0),
     eventDetail: "Merry Christmas. Don't forget the turkey",
-    id: 4,
+    id: 6,
   },
 ];
 
