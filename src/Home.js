@@ -15,8 +15,6 @@ const Home = () => {
       <div className={styles.main_container}>
         <Nav changeView={changeComponentView} />
         <div className={styles.content_container}>
-          <p className={styles.title}>{bringIntoView}</p>
-
           {bringIntoView === "calendar" && <CalendarComp />}
         </div>
       </div>
