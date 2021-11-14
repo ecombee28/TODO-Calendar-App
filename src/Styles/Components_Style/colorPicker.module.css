@@ -16,8 +16,8 @@
     padding: 5px 12px;
     color: var(--white);
     font-size: clamp(.7rem, 3vw, 1rem);
-    -webkit-box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.4);
-    box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.4);
+    -webkit-box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.41);
+    box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.41);
 }
 
 .color_pick_box:hover, .color_pick_box:focus {
@@ -52,4 +52,28 @@
 .selected {
     -webkit-box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
     box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-width:480px) {
+    .color_container {
+        width: 100%;
+        height: auto;
+        padding: 5px;
+        gap: 15px;
+    }
+    .color_pick_box {
+        width: 90px;
+    }
+}
+
+@media screen and (max-width:320px) {
+    .color_container {
+        width: 100%;
+        height: auto;
+        padding: 2px;
+        gap: 10px;
+    }
+    .color_pick_box {
+        width: 80px;
+    }
 }
