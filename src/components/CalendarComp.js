@@ -112,7 +112,7 @@ function CalendarComp() {
             return { style: { backgroundColor } };
           }}
           onSelectSlot={addEvent}
-          longPressThreshold={10}
+          longPressThreshold={20}
         />
       </div>
       {showEvent && (
