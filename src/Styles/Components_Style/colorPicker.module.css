@@ -1,0 +1,54 @@
+.color_container {
+    width: 80%;
+    height: auto;
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.color_pick_box {
+    width: 90px;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 12px;
+    color: var(--white);
+    -webkit-box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.4);
+    box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.4);
+}
+
+.color_pick_box:hover, .color_pick_box:focus {
+    -webkit-box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+}
+
+.blue {
+    background-color: #457dcc;
+}
+
+.red {
+    background-color: #d60404;
+}
+
+.green {
+    background-color: #02970f;
+}
+
+.purple {
+    background-color: #6945cc;
+}
+
+.orange {
+    background-color: var(--orange);
+}
+
+.gray {
+    background-color: #464646;
+}
+
+.selected {
+    -webkit-box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+    box-shadow: 2px 2px 15px 2px rgba(0, 0, 0, 0.2);
+}

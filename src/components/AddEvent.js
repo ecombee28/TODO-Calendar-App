@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styles from "../Styles/Components_Style/addEvent.module.css";
-import { format } from "date-fns";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DatePicker from "./DatePicker";
+import DateTime from "./DateTime";
+import ColorPicker from "./ColorPicker";
 
-const AddEvent = ({ date, close, add }) => {
+const AddEvent = ({ date, close, add, id }) => {
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
@@ -13,11 +15,30 @@ const AddEvent = ({ date, close, add }) => {
   const [color, setColor] = useState("");
 
   const addEvent = () => {
-    const e = {
-      name: title,
-      age: 22,
+    let event = {
+      id: id,
+      title: title,
+      allDay: allDay,
+      start: startDate,
+      end: endDate,
+      eventDetail: notes,
+      color: color,
     };
-    add(e);
+    add(event);
+  };
+
+  const addDateTime = (startDate, endDate) => {
+    setStartDate(startDate);
+    setEndDate(endDate);
+  };
+
+  const addDate = (date) => {
+    setStartDate(date[0]);
+    setEndDate(date[1]);
+  };
+
+  const addColor = (color) => {
+    setColor(color);
   };
 
   return (
@@ -37,14 +58,36 @@ const AddEvent = ({ date, close, add }) => {
           value={title}
           placeholder="Add Title"
           onChange={(e) => setTitle(e.target.value)}
-          className={styles.title_input}
+          className={`${styles.input} ${styles.title_input}`}
         ></input>
-        <p>{`${format(new Date(date), "MMM dd ,yyyy")} - ${format(
-          new Date(date),
-          "MMM dd ,yyyy"
-        )}`}</p>
 
-        <p onClick={addEvent}>Add Event</p>
+        {allDay ? (
+          <DatePicker date={date} add={addDate} />
+        ) : (
+          <DateTime date={date} add={addDateTime} />
+        )}
+        <div className={styles.check_box_wrapper}>
+          <input
+            type="checkbox"
+            value={allDay}
+            checked={allDay}
+            className={styles.input_box}
+            onChange={() => setAllDay(!allDay)}
+          />
+          <label>All Day Event</label>
+        </div>
+        <input
+          type="text"
+          value={notes}
+          placeholder="Add Description"
+          onChange={(e) => setNotes(e.target.value)}
+          className={`${styles.input} ${styles.notes_input}`}
+        ></input>
+
+        <ColorPicker add={addColor} />
+        <button className={styles.add_btn} onClick={addEvent}>
+          Add Event
+        </button>
       </div>
     </div>
   );

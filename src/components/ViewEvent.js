@@ -10,26 +10,31 @@ import {
   faClipboard,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { format } from "date-fns";
+import { format, isEqual } from "date-fns";
 
 const ViewEvent = ({ event, close, remove }) => {
-  const formatDates = (start, end, allDay) => {
+  const formatDates = () => {
     let returnDate = "";
-    let startHour = start.getHours();
-    let endHour = end.getHours();
+    let startHour = event.start.getHours();
+    let endHour = event.end.getHours();
     let startStr = startHour <= 11 ? "am" : "pm";
     let endStr = endHour <= 11 ? "am" : "pm";
-    console.log(endStr);
-    //format(new Date(event.start), "MMMM dd ,yyyy  hh:mm");
 
-    if (allDay) {
-      returnDate = format(new Date(start), "MMM dd ,yyyy");
-    } else if (!allDay) {
+    if (event.allDay) {
+      if (!isEqual(event.start, event.end)) {
+        returnDate =
+          format(new Date(event.start), "MMM dd ,yyyy") +
+          " - " +
+          format(new Date(event.end), "MMM dd ,yyyy");
+      } else {
+        returnDate = format(new Date(event.start), "MMM dd ,yyyy");
+      }
+    } else if (!event.allDay) {
       returnDate =
-        format(new Date(start), "MMM dd ,yyyy  h:mm") +
+        format(new Date(event.start), "MMM dd ,yyyy h:mm") +
         startStr +
         "  -  " +
-        format(new Date(end), "MMM dd ,yyyy  h:mm") +
+        format(new Date(event.end), "MMM dd ,yyyy h:mm") +
         endStr;
     }
 
@@ -69,9 +74,7 @@ const ViewEvent = ({ event, close, remove }) => {
           </div>
           <div className={styles.span}>
             <FontAwesomeIcon icon={faCalendarAlt} className={styles.icon} />
-            <p className={styles.date_text}>
-              {formatDates(event.start, event.end, event.allDay)}
-            </p>
+            <p className={styles.date_text}>{formatDates()}</p>
           </div>
 
           <div className={styles.span}>
