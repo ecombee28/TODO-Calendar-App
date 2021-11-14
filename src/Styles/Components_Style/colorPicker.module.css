@@ -10,12 +10,12 @@
 }
 
 .color_pick_box {
-    width: 90px;
+    width: 110px;
     border-radius: 5px;
     cursor: pointer;
     padding: 5px 12px;
     color: var(--white);
-    font-size: clamp(.7rem, 3vw, 1.3rem);
+    font-size: clamp(.7rem, 3vw, 1rem);
     -webkit-box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.4);
     box-shadow: 3px 3px 10px 2px rgba(0, 0, 0, 0.4);
 }
