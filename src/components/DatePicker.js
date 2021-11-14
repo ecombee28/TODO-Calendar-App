@@ -6,8 +6,16 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import MobileDateRangePicker from "@mui/lab/MobileDateRangePicker";
 
-export default function DatePicker({ date, add }) {
-  const [dates, setDates] = useState([date, date]);
+export default function DatePicker({ sDate, eDate, add }) {
+  const [dates, setDates] = useState([sDate, eDate]);
+
+  //this just adds 2 hours to the time so that it will show the
+  //correct date on the calendar
+  const sendDates = () => {
+    dates[0].setHours(dates[0].getHours() + 2);
+    dates[1].setHours(dates[1].getHours() + 2);
+    add(dates);
+  };
 
   return (
     <div className="container">
@@ -18,7 +26,7 @@ export default function DatePicker({ date, add }) {
             endText="Pick Stop Date"
             clearable={true}
             value={dates}
-            onAccept={() => add(dates)}
+            onAccept={sendDates}
             onChange={(newValue) => {
               setDates(newValue);
             }}

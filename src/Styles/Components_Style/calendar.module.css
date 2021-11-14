@@ -4,7 +4,8 @@
 }
 
 .wrapper {
-    width: 85vw;
+    width: 1500px;
+    max-width: 1500px;
     height: 90vh;
     margin: 20px auto;
     background-color: rgb(255, 255, 255);
@@ -22,4 +23,23 @@
     cursor: pointer;
     margin-left: 50%;
     transform: translateX(-50%);
+}
+
+@media screen and (max-width:1800px) {
+    .wrapper {
+        width: 1200px;
+    }
+}
+
+@media screen and (max-width:1450px) {
+    .wrapper {
+        width: 900px;
+    }
+}
+
+@media screen and (max-width:1100px) {
+    .wrapper {
+        width: 97vw;
+        margin-top: 40px;
+    }
 }

@@ -71,17 +71,17 @@
 }
 
 .title {
-    font-size: 1.8rem;
+    font-size: clamp(1.1rem, 3vw, 1.8rem);
     font-weight: 500;
 }
 
 .date_text {
-    font-size: 1.1rem;
+    font-size: clamp(.7rem, 3vw, 1.1rem);
     margin-left: 9px;
 }
 
 .event_text {
-    font-size: 1.2rem;
+    font-size: clamp(.8rem, 3vw, 1.2rem);
     margin-left: 9px;
 }
 
@@ -97,4 +97,16 @@
     height: 20px;
     background-color: rgb(117, 117, 117);
     border-radius: 2px;
+}
+
+@media screen and (max-width:800px) {
+    .main_container {
+        width: 90vw;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    .toolbar_items {
+        width: 60%;
+    }
 }

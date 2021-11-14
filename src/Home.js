@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import styles from "./Styles/Home.module.css";
 import Nav from "./components/Nav";
 import CalendarComp from "./components/CalendarComp";
@@ -15,7 +15,7 @@ const Home = () => {
       <div className={styles.main_container}>
         <Nav changeView={changeComponentView} />
         <div className={styles.content_container}>
-          {bringIntoView === "calendar" && <CalendarComp />}
+          {bringIntoView === "home" && <CalendarComp />}
         </div>
       </div>
     </>

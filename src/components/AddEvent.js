@@ -62,9 +62,9 @@ const AddEvent = ({ date, close, add, id }) => {
         ></input>
 
         {allDay ? (
-          <DatePicker date={date} add={addDate} />
+          <DatePicker sDate={null} eDate={null} add={addDate} />
         ) : (
-          <DateTime date={date} add={addDateTime} />
+          <DateTime sDate={null} eDate={null} add={addDateTime} />
         )}
         <div className={styles.check_box_wrapper}>
           <input

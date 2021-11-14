@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "../Styles/Components_Style/viewEvent.module.css";
 import {
   faTrashAlt,
@@ -11,8 +11,11 @@ import {
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { format, isEqual } from "date-fns";
+import EditEvent from "./EditEvent";
 
-const ViewEvent = ({ event, close, remove }) => {
+const ViewEvent = ({ event, close, remove, edit }) => {
+  const [showEditEvent, setShowEditEvent] = useState(false);
+
   const formatDates = () => {
     let returnDate = "";
     let startHour = event.start.getHours();
@@ -40,49 +43,71 @@ const ViewEvent = ({ event, close, remove }) => {
 
     return returnDate;
   };
+
+  const closeEditPanel = () => {
+    setShowEditEvent(false);
+    close();
+  };
+
+  const addNewEditedEvent = (event) => {
+    edit(event);
+  };
+
   return (
     <div className={styles.blackout}>
-      <div className={styles.main_container}>
-        <section className={styles.toolbar}>
-          <div className={styles.toolbar_items}>
-            <li>
-              <FontAwesomeIcon icon={faPencilAlt} className={styles.icon} />
-            </li>
-            <li>
-              <FontAwesomeIcon
-                icon={faTrashAlt}
-                className={styles.icon}
-                onClick={() => remove(event.id)}
-              />
-            </li>
-            <li>
-              <FontAwesomeIcon
-                icon={faTimes}
-                className={styles.icon}
-                onClick={() => close()}
-              />
-            </li>
-          </div>
-        </section>
-        <section className={styles.event_content}>
-          <div className={styles.span}>
-            <p
-              className={styles.block}
-              style={{ backgroundColor: event.color }}
-            ></p>
-            <p className={styles.title}>{event.title}</p>
-          </div>
-          <div className={styles.span}>
-            <FontAwesomeIcon icon={faCalendarAlt} className={styles.icon} />
-            <p className={styles.date_text}>{formatDates()}</p>
-          </div>
+      {!showEditEvent ? (
+        <div className={styles.main_container}>
+          <section className={styles.toolbar}>
+            <div className={styles.toolbar_items}>
+              <li>
+                <FontAwesomeIcon
+                  icon={faPencilAlt}
+                  className={styles.icon}
+                  onClick={() => setShowEditEvent(true)}
+                />
+              </li>
+              <li>
+                <FontAwesomeIcon
+                  icon={faTrashAlt}
+                  className={styles.icon}
+                  onClick={() => remove(event.id)}
+                />
+              </li>
+              <li>
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  className={styles.icon}
+                  onClick={() => close()}
+                />
+              </li>
+            </div>
+          </section>
+          <section className={styles.event_content}>
+            <div className={styles.span}>
+              <p
+                className={styles.block}
+                style={{ backgroundColor: event.color }}
+              ></p>
+              <p className={styles.title}>{event.title}</p>
+            </div>
+            <div className={styles.span}>
+              <FontAwesomeIcon icon={faCalendarAlt} className={styles.icon} />
+              <p className={styles.date_text}>{formatDates()}</p>
+            </div>
 
-          <div className={styles.span}>
-            <FontAwesomeIcon icon={faClipboard} className={styles.icon} />
-            <p className={styles.event_text}>{event.eventDetail}</p>
-          </div>
-        </section>
-      </div>
+            <div className={styles.span}>
+              <FontAwesomeIcon icon={faClipboard} className={styles.icon} />
+              <p className={styles.event_text}>{event.eventDetail}</p>
+            </div>
+          </section>
+        </div>
+      ) : (
+        <EditEvent
+          event={event}
+          close={closeEditPanel}
+          add={addNewEditedEvent}
+        />
+      )}
     </div>
   );
 };

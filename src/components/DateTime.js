@@ -6,14 +6,14 @@ import DateTimePicker from "@mui/lab/DateTimePicker";
 import Stack from "@mui/material/Stack";
 import styles from "../Styles/Components_Style/dateTime.module.css";
 
-export default function DateTime({ date, add }) {
-  const [startDate, setStartDate] = useState(new Date());
-  const [endDate, setEndDate] = useState(new Date());
+export default function DateTime({ sDate, eDate, add }) {
+  const [startDate, setStartDate] = useState(sDate);
+  const [endDate, setEndDate] = useState(eDate);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Stack spacing={3}>
-        <div classNam={styles.container}>
+        <div className={styles.container}>
           <DateTimePicker
             renderInput={(params) => <TextField {...params} />}
             label="Start Date and Time Selection"

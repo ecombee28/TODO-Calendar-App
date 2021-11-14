@@ -55,12 +55,12 @@ const Nav = ({ changeView }) => {
           <li className={styles.nav_link} onClick={() => changeView("events")}>
             My Events
           </li>
-          <li
+          {/* <li
             className={styles.nav_link}
             onClick={() => changeView("calendar")}
           >
             My Calender
-          </li>
+          </li> */}
           <li className={styles.nav_link} onClick={() => changeView("account")}>
             My Account
           </li>

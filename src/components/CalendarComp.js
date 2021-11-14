@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -57,6 +57,7 @@ var id = 4;
 function CalendarComp() {
   const [showEvent, setShowEvent] = useState(false);
   const [showNewEvent, setShowNewEvent] = useState(false);
+
   const [allEvents, setAllEvents] = useState(events);
   const [currentEvent, setCurrentEvent] = useState({});
   const [currentSlot, setCurrentSlot] = useState("");
@@ -67,7 +68,7 @@ function CalendarComp() {
   };
 
   const addEvent = (start) => {
-    setCurrentSlot(start.slots[0]);
+    setCurrentSlot(start);
     setShowNewEvent(true);
   };
 
@@ -90,6 +91,10 @@ function CalendarComp() {
     setShowNewEvent(false);
   };
 
+  const editEvent = (event) => {
+    allEvents.map((e, i) => e.id === event.id && (allEvents[i] = event));
+  };
+
   return (
     <div>
       <div className={styles.wrapper}>
@@ -101,13 +106,13 @@ function CalendarComp() {
           showMultiDayTimes
           startAccessor="start"
           endAccessor="end"
-          style={{ width: "100%", height: "100%" }}
           onSelectEvent={(event) => viewEvent(event)}
           eventPropGetter={(event) => {
             const backgroundColor = event.color;
             return { style: { backgroundColor } };
           }}
           onSelectSlot={addEvent}
+          longPressThreshold={10}
         />
       </div>
       {showEvent && (
@@ -115,6 +120,7 @@ function CalendarComp() {
           event={currentEvent}
           close={closeEventInformation}
           remove={deleteEvent}
+          edit={editEvent}
         />
       )}
 
