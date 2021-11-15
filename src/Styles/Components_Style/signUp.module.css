@@ -131,7 +131,7 @@
     visibility: visible;
 }
 
-@media screen and (max-width:600px) {
+@media screen and (max-width:600px) and (orientation:portrait) {
     .signin_container {
         width: 95vw;
         gap: 20px;
