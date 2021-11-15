@@ -13,6 +13,25 @@ const EditEvent = ({ event, close, add }) => {
   const [notes, setNotes] = useState(event.eventDetail);
   const [allDay, setAllDay] = useState(event.allDay);
   const [color, setColor] = useState(event.color);
+  const [showError, setShowError] = useState(false);
+
+  const validateInput = () => {
+    if (
+      title.length == 0 ||
+      startDate.length == 0 ||
+      endDate.length == 0 ||
+      notes.length == 0 ||
+      color.length == 0
+    ) {
+      setShowError(true);
+
+      setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+    } else {
+      editEvent();
+    }
+  };
 
   const editEvent = () => {
     let eventObj = {
@@ -24,8 +43,6 @@ const EditEvent = ({ event, close, add }) => {
       eventDetail: notes,
       color: color,
     };
-
-    console.log(eventObj);
 
     add(eventObj);
 
@@ -89,9 +106,12 @@ const EditEvent = ({ event, close, add }) => {
       ></input>
 
       <ColorPicker add={addColor} />
-      <button className={styles.add_btn} onClick={editEvent}>
+      <button className={styles.add_btn} onClick={validateInput}>
         Save
       </button>
+      <p className={`${styles.error} ${showError && styles.show_error}`}>
+        All fields must be filled out
+      </p>
     </div>
   );
 };

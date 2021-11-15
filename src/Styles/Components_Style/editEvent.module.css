@@ -92,6 +92,17 @@
     cursor: pointer;
 }
 
+.error {
+    font-size: 1.5rem;
+    color: #ff0000;
+    margin-top: -40px;
+    visibility: hidden;
+}
+
+.show_error {
+    visibility: visible;
+}
+
 @media screen and (max-width:800px) {
     .main_container {
         width: 90vw;

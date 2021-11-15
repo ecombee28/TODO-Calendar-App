@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -9,6 +9,10 @@ import styles from "../Styles/Components_Style/calendar.module.css";
 import "../Styles/Components_Style/calendarStyles.css";
 import ViewEvent from "./ViewEvent";
 import AddEvent from "./AddEvent";
+import OptionsComponent from "./OptionsComponent";
+import { events } from "../events";
+import { faTimes } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -22,45 +26,22 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-const events = [
-  {
-    id: 1,
-    title: "Vacation",
-    allDay: true,
-    start: new Date(2021, 10, 21),
-    end: new Date(2021, 10, 23),
-    eventDetail: "Going to Disneyland!!!!!!!",
-    color: "#02a332",
-  },
-  {
-    id: 2,
-    title: "Meeting with Jeff",
-    allDay: false,
-    start: new Date(2021, 10, 18, 9, 30),
-    end: new Date(2021, 10, 18, 10, 0),
-    eventDetail: "Talk to Jeff about the project",
-    color: "#ff0000",
-  },
-  {
-    id: 3,
-    title: "Last day of school",
-    allDay: true,
-    start: new Date(2021, 11, 14),
-    end: new Date(2021, 11, 14),
-    eventDetail: "Last day of school!!!!!!!!!!",
-    color: "#6945cc",
-  },
-];
-
-var id = 4;
+var id = 6;
 
 function CalendarComp() {
   const [showEvent, setShowEvent] = useState(false);
   const [showNewEvent, setShowNewEvent] = useState(false);
-
   const [allEvents, setAllEvents] = useState(events);
+  const [filteredEvents, setFilteredEvents] = useState(events);
   const [currentEvent, setCurrentEvent] = useState({});
   const [currentSlot, setCurrentSlot] = useState("");
+  const [showMobileOptions, setShoMobileOptions] = useState(false);
+  const [isImportantChecked, setIsImportantChecked] = useState(true);
+  const [isWorkChecked, setIsWorkChecked] = useState(true);
+  const [isPersonalChecked, setIsPersonalChecked] = useState(true);
+  const [isHolidayChecked, setIsHolidayChecked] = useState(true);
+  const [isVacationChecked, setIsVacationChecked] = useState(true);
+  const [isOtherChecked, setIsOtherChecked] = useState(true);
 
   const viewEvent = (event) => {
     setCurrentEvent(event);
@@ -81,13 +62,18 @@ function CalendarComp() {
   };
 
   const deleteEvent = (eventId) => {
-    var updatedEvents = allEvents.filter((e) => e.id !== eventId);
-    setAllEvents(updatedEvents);
+    var updatedMasterEvents = allEvents.filter((e) => e.id !== eventId);
+    var updatedFilteredEvents = allEvents.filter((e) => e.id !== eventId);
+
+    setAllEvents(updatedMasterEvents);
+    setFilteredEvents(updatedFilteredEvents);
     setShowEvent(false);
   };
 
   const addNewEvent = (eventObj) => {
     setAllEvents([...allEvents, eventObj]);
+    setFilteredEvents([...filteredEvents, eventObj]);
+    events.push(eventObj);
     setShowNewEvent(false);
   };
 
@@ -95,14 +81,101 @@ function CalendarComp() {
     allEvents.map((e, i) => e.id === event.id && (allEvents[i] = event));
   };
 
+  useEffect(() => {
+    localStorage.setItem("events", JSON.stringify(filteredEvents));
+  }, [filteredEvents]);
+
+  const handleChange = (e) => {
+    let value = e.target.value;
+    let checked = e.target.checked;
+
+    if (!checked) {
+      var remove = filteredEvents.filter((f) => f.eventType !== value);
+      setFilteredEvents(remove);
+      value === "important" && setIsImportantChecked(false);
+      value === "work" && setIsWorkChecked(false);
+      value === "personal" && setIsPersonalChecked(false);
+      value === "holiday" && setIsHolidayChecked(false);
+      value === "vacation" && setIsVacationChecked(false);
+      value === "other" && setIsOtherChecked(false);
+    } else {
+      let add = allEvents.filter((f) => f.eventType === value);
+      let combine = filteredEvents.concat(add);
+      setFilteredEvents(combine);
+      value === "important" && setIsImportantChecked(true);
+      value === "work" && setIsWorkChecked(true);
+      value === "personal" && setIsPersonalChecked(true);
+      value === "holiday" && setIsHolidayChecked(true);
+      value === "vacation" && setIsVacationChecked(true);
+      value === "other" && setIsOtherChecked(true);
+    }
+  };
+
+  useEffect(() => {}, [
+    isImportantChecked,
+    isWorkChecked,
+    isPersonalChecked,
+    isHolidayChecked,
+    isVacationChecked,
+  ]);
+
   return (
-    <div>
+    <div className={styles.main_container}>
+      {/* desktop */}
+      <div className={styles.options_container}>
+        <h2>Filters</h2>
+        <OptionsComponent
+          change={handleChange}
+          important={isImportantChecked}
+          work={isWorkChecked}
+          personal={isPersonalChecked}
+          holiday={isHolidayChecked}
+          vacation={isVacationChecked}
+          other={isOtherChecked}
+        />
+      </div>
+      {/* mobile */}
+      <button
+        className={`${styles.filter_btn}`}
+        onClick={() => setShoMobileOptions(true)}
+      >
+        Filter
+      </button>
+
+      <div
+        className={`${styles.mobile_options_container} ${
+          showMobileOptions && styles.show
+        }`}
+      >
+        <div className={styles.blackout}>
+          <div className={styles.mobile_wrapper}>
+            <div className={styles.mobile_options_header}>
+              <p>Filter Options</p>
+              <FontAwesomeIcon
+                icon={faTimes}
+                className={styles.icon}
+                onClick={() => setShoMobileOptions(false)}
+              />
+            </div>
+            <OptionsComponent
+              change={handleChange}
+              important={isImportantChecked}
+              work={isWorkChecked}
+              personal={isPersonalChecked}
+              holiday={isHolidayChecked}
+              vacation={isVacationChecked}
+              other={isOtherChecked}
+            />
+          </div>
+        </div>
+      </div>
+
       <div className={styles.wrapper}>
         <Calendar
           selectable
           localizer={localizer}
           views={{ month: true, day: true, week: true }}
-          events={allEvents}
+          events={filteredEvents}
           showMultiDayTimes
           startAccessor="start"
           endAccessor="end"

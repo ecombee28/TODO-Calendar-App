@@ -41,6 +41,10 @@
     background-color: #6945cc;
 }
 
+.light_blue {
+    background-color: #30b4d1;
+}
+
 .orange {
     background-color: var(--orange);
 }

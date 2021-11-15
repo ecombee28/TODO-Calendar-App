@@ -12,7 +12,27 @@ const AddEvent = ({ date, close, add, id }) => {
   const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState("");
   const [allDay, setAllDay] = useState(true);
-  const [color, setColor] = useState("");
+  const [color, setColor] = useState("#457dcc");
+  const [eventType, setEventType] = useState("");
+  const [showError, setShowError] = useState(false);
+
+  const validateInput = () => {
+    if (
+      title.length === 0 ||
+      startDate.length === 0 ||
+      endDate.length === 0 ||
+      notes.length === 0 ||
+      color.length === 0
+    ) {
+      setShowError(true);
+
+      setTimeout(() => {
+        setShowError(false);
+      }, 5000);
+    } else {
+      addEvent();
+    }
+  };
 
   const addEvent = () => {
     let event = {
@@ -22,6 +42,7 @@ const AddEvent = ({ date, close, add, id }) => {
       start: startDate,
       end: endDate,
       eventDetail: notes,
+      eventType: eventType,
       color: color,
     };
     add(event);
@@ -37,8 +58,11 @@ const AddEvent = ({ date, close, add, id }) => {
     setEndDate(date[1]);
   };
 
-  const addColor = (color) => {
+  const addColor = (eventType, color) => {
     setColor(color);
+    setEventType(eventType);
+
+    console.log(color);
   };
 
   return (
@@ -85,9 +109,13 @@ const AddEvent = ({ date, close, add, id }) => {
         ></input>
 
         <ColorPicker add={addColor} />
-        <button className={styles.add_btn} onClick={addEvent}>
+        <button className={styles.add_btn} onClick={validateInput}>
           Add Event
         </button>
+
+        <p className={`${styles.error} ${showError && styles.show_error}`}>
+          All fields must be filled out
+        </p>
       </div>
     </div>
   );
