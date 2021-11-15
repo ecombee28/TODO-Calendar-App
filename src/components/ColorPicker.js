@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import styles from "../Styles/Components_Style/colorPicker.module.css";
 
-const ColorPicker = ({ add }) => {
-  const [color, setColor] = useState("#457dcc");
+const ColorPicker = ({ add, currentColor }) => {
+  const [color, setColor] = useState(currentColor);
 
-  const addColor = (eventType, color) => {
-    setColor(color);
-    add(color);
+  const setEvent = (event, eventColor) => {
+    setColor(eventColor);
+    add(event, eventColor);
   };
 
   return (
@@ -17,7 +17,7 @@ const ColorPicker = ({ add }) => {
           className={`${styles.color_pick_box} ${styles.red} ${
             color === "#d60404" && styles.selected
           }`}
-          onClick={() => add("important", "#d60404")}
+          onClick={() => setEvent("important", "#d60404")}
         >
           Important
         </button>
@@ -25,7 +25,7 @@ const ColorPicker = ({ add }) => {
           className={`${styles.color_pick_box} ${styles.orange} ${
             color === "#ef6330" && styles.selected
           }`}
-          onClick={() => add("work", "#ef6330")}
+          onClick={() => setEvent("work", "#ef6330")}
         >
           Work
         </button>
@@ -33,7 +33,7 @@ const ColorPicker = ({ add }) => {
           className={`${styles.color_pick_box} ${styles.light_blue} ${
             color === "#ef6330" && styles.selected
           }`}
-          onClick={() => add("vacation", "#30b4d1")}
+          onClick={() => setEvent("vacation", "#30b4d1")}
         >
           Vacation
         </button>
@@ -41,7 +41,7 @@ const ColorPicker = ({ add }) => {
           className={`${styles.color_pick_box} ${styles.green} ${
             color === "#02970f" && styles.selected
           }`}
-          onClick={() => add("personal", "#02970f")}
+          onClick={() => setEvent("personal", "#02970f")}
         >
           Personal
         </button>
@@ -49,7 +49,7 @@ const ColorPicker = ({ add }) => {
           className={`${styles.color_pick_box} ${styles.purple} ${
             color === "#6945cc" && styles.selected
           }`}
-          onClick={() => add("holiday", "#6945cc")}
+          onClick={() => setEvent("holiday", "#6945cc")}
         >
           Holiday
         </button>
@@ -57,7 +57,7 @@ const ColorPicker = ({ add }) => {
           className={`${styles.color_pick_box} ${styles.blue} ${
             color === "#457dcc" && styles.selected
           } `}
-          onClick={() => add("other", "#457dcc")}
+          onClick={() => setEvent("other", "#457dcc")}
         >
           Other
         </button>

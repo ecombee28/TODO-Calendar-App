@@ -61,8 +61,6 @@ const AddEvent = ({ date, close, add, id }) => {
   const addColor = (eventType, color) => {
     setColor(color);
     setEventType(eventType);
-
-    console.log(color);
   };
 
   return (
@@ -108,7 +106,7 @@ const AddEvent = ({ date, close, add, id }) => {
           className={`${styles.input} ${styles.notes_input}`}
         ></input>
 
-        <ColorPicker add={addColor} />
+        <ColorPicker add={addColor} currentColor={""} />
         <button className={styles.add_btn} onClick={validateInput}>
           Add Event
         </button>

@@ -78,6 +78,10 @@ function CalendarComp() {
   };
 
   const editEvent = (event) => {
+    filteredEvents.map(
+      (e, i) => e.id === event.id && (filteredEvents[i] = event)
+    );
+
     allEvents.map((e, i) => e.id === event.id && (allEvents[i] = event));
   };
 
@@ -194,6 +198,7 @@ function CalendarComp() {
           close={closeEventInformation}
           remove={deleteEvent}
           edit={editEvent}
+          longPressThreshold={10}
         />
       )}
 

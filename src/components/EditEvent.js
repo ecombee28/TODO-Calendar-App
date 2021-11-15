@@ -14,14 +14,15 @@ const EditEvent = ({ event, close, add }) => {
   const [allDay, setAllDay] = useState(event.allDay);
   const [color, setColor] = useState(event.color);
   const [showError, setShowError] = useState(false);
+  const [eventType, setEventType] = useState("");
 
   const validateInput = () => {
     if (
-      title.length == 0 ||
-      startDate.length == 0 ||
-      endDate.length == 0 ||
-      notes.length == 0 ||
-      color.length == 0
+      title.length === 0 ||
+      startDate.length === 0 ||
+      endDate.length === 0 ||
+      notes.length === 0 ||
+      color.length === 0
     ) {
       setShowError(true);
 
@@ -41,6 +42,7 @@ const EditEvent = ({ event, close, add }) => {
       start: startDate,
       end: endDate,
       eventDetail: notes,
+      eventType: eventType,
       color: color,
     };
 
@@ -50,6 +52,8 @@ const EditEvent = ({ event, close, add }) => {
   };
 
   const addDateTime = (startDate, endDate) => {
+    console.log("from addDataTime");
+    console.log(endDate);
     setStartDate(startDate);
     setEndDate(endDate);
   };
@@ -59,8 +63,9 @@ const EditEvent = ({ event, close, add }) => {
     setEndDate(date[1]);
   };
 
-  const addColor = (color) => {
+  const addColor = (eventType, color) => {
     setColor(color);
+    setEventType(eventType);
   };
 
   return (
@@ -105,7 +110,7 @@ const EditEvent = ({ event, close, add }) => {
         className={`${styles.input} ${styles.notes_input}`}
       ></input>
 
-      <ColorPicker add={addColor} />
+      <ColorPicker add={addColor} currentColor={event.color} />
       <button className={styles.add_btn} onClick={validateInput}>
         Save
       </button>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Styles/Home.module.css";
 import Nav from "./components/Nav";
 import CalendarComp from "./components/CalendarComp";

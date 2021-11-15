@@ -7,8 +7,8 @@ import Stack from "@mui/material/Stack";
 import styles from "../Styles/Components_Style/dateTime.module.css";
 
 export default function DateTime({ sDate, eDate, add }) {
-  const [startDate, setStartDate] = useState(sDate);
-  const [endDate, setEndDate] = useState(eDate);
+  var [startDate, setStartDate] = useState(sDate);
+  var [endDate, setEndDate] = useState(eDate);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
