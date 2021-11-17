@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "../Styles/Components_Style/myEvents.module.css";
 import format from "date-fns/format";
-import parse from "date-fns/parse";
 
 const MyEvents = () => {
   const [allEvents, setAllEvents] = useState(null);

@@ -5,19 +5,18 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding-left: 35px;
+    padding-right: 35px;
     z-index: 10;
 }
 
 .logo {
-    width: 250px;
+    width: 200px;
     object-fit: cover;
     margin-bottom: 30px;
 }
 
 .user_wrapper {
-    padding: 5px;
     display: flex;
     justify-content: center;
     align-items: flex-start;

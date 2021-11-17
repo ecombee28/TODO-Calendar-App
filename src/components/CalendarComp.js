@@ -89,7 +89,7 @@ function CalendarComp() {
     localStorage.setItem("events", JSON.stringify(filteredEvents));
   }, [filteredEvents]);
 
-  const handleChange = (e) => {
+  const filterEventTypes = (e) => {
     let value = e.target.value;
     let checked = e.target.checked;
 
@@ -129,7 +129,7 @@ function CalendarComp() {
       <div className={styles.options_container}>
         <h2>Filters</h2>
         <OptionsComponent
-          change={handleChange}
+          change={filterEventTypes}
           important={isImportantChecked}
           work={isWorkChecked}
           personal={isPersonalChecked}
@@ -137,6 +137,39 @@ function CalendarComp() {
           vacation={isVacationChecked}
           other={isOtherChecked}
         />
+
+        <div className={styles.list}>
+          <p className={styles.events_title}>All My Events</p>
+          {allEvents.map((m) => (
+            <div className={styles.list_wrapper} onClick={() => viewEvent(m)}>
+              <div
+                className={styles.color_box}
+                style={{ backgroundColor: m.color }}
+              ></div>
+              <div className={styles.content_list_container}>
+                {m.allDay ? (
+                  <>
+                    <li>All Day</li>
+                    <li>{format(new Date(m.start), "MM/dd/yy")}</li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      {format(new Date(m.start), "h:mm")} -
+                      {format(new Date(m.end), "h:mm")}
+                    </li>
+                    <li>
+                      {format(new Date(m.start), "MM/dd/yy")} -{" "}
+                      {format(new Date(m.end), "MM/dd/yy")}
+                    </li>
+                  </>
+                )}
+
+                <li>{m.title}</li>
+              </div>
+            </div>
+          ))}
+        </div>
       </div>
       {/* mobile */}
       <button
@@ -162,7 +195,7 @@ function CalendarComp() {
               />
             </div>
             <OptionsComponent
-              change={handleChange}
+              change={filterEventTypes}
               important={isImportantChecked}
               work={isWorkChecked}
               personal={isPersonalChecked}
@@ -174,7 +207,7 @@ function CalendarComp() {
         </div>
       </div>
 
-      <div className={styles.wrapper}>
+      <div className={styles.calendar_wrapper}>
         <Calendar
           selectable
           localizer={localizer}
