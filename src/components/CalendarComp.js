@@ -13,6 +13,7 @@ import OptionsComponent from "./OptionsComponent";
 import { events } from "../events";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import EventList from "./EventList";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -138,37 +139,9 @@ function CalendarComp() {
           other={isOtherChecked}
         />
 
-        <div className={styles.list}>
-          <p className={styles.events_title}>All My Events</p>
-          {allEvents.map((m) => (
-            <div className={styles.list_wrapper} onClick={() => viewEvent(m)}>
-              <div
-                className={styles.color_box}
-                style={{ backgroundColor: m.color }}
-              ></div>
-              <div className={styles.content_list_container}>
-                {m.allDay ? (
-                  <>
-                    <li>All Day</li>
-                    <li>{format(new Date(m.start), "MM/dd/yy")}</li>
-                  </>
-                ) : (
-                  <>
-                    <li>
-                      {format(new Date(m.start), "h:mm")} -
-                      {format(new Date(m.end), "h:mm")}
-                    </li>
-                    <li>
-                      {format(new Date(m.start), "MM/dd/yy")} -{" "}
-                      {format(new Date(m.end), "MM/dd/yy")}
-                    </li>
-                  </>
-                )}
-
-                <li>{m.title}</li>
-              </div>
-            </div>
-          ))}
+        <p className={styles.events_title}>All My Events</p>
+        <div className={styles.event_list_container_desktop}>
+          <EventList events={allEvents} view={viewEvent} />
         </div>
       </div>
       {/* mobile */}
@@ -203,6 +176,9 @@ function CalendarComp() {
               vacation={isVacationChecked}
               other={isOtherChecked}
             />
+            <div className={styles.event_list_container_desktop}>
+              <EventList events={allEvents} view={viewEvent} />
+            </div>
           </div>
         </div>
       </div>

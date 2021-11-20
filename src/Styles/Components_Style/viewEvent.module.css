@@ -8,6 +8,9 @@
     bottom: 0;
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 50;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .main_container {
@@ -16,9 +19,6 @@
     background-color: var(--white);
     padding: 10px 0;
     position: absolute;
-    top: 50%;
-    left: 55%;
-    transform: translate(-45%, -50%);
     border-radius: 10px;
     z-index: 100;
     display: flex;

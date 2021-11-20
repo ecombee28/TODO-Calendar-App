@@ -22,11 +22,22 @@
     font-size: clamp(.7rem, 3vw, 1.3rem);
 }
 
+.MuiInputBase-root, .MuiFormLabel-root {
+    margin-left: 20px;
+}
+
+.css-1z7n62 {
+    font-size: .8rem;
+}
+
 @media screen and (max-width: 700px) {
     .rbc-toolbar {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
+    }
+    .MuiInputBase-root, .MuiFormLabel-root {
+        margin-left: 5px;
     }
 }

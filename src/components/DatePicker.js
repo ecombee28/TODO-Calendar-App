@@ -18,7 +18,7 @@ export default function DatePicker({ sDate, eDate, add }) {
   };
 
   return (
-    <div className="container">
+    <div>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
         <Stack spacing={3}>
           <MobileDateRangePicker

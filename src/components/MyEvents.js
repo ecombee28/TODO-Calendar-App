@@ -9,7 +9,6 @@ const MyEvents = () => {
     setAllEvents(JSON.parse(localStorage.getItem("events")));
   }, []);
 
-  console.log(allEvents);
   return (
     <div>
       <div className={styles.my_event_container}>

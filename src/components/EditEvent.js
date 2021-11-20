@@ -52,8 +52,6 @@ const EditEvent = ({ event, close, add }) => {
   };
 
   const addDateTime = (startDate, endDate) => {
-    console.log("from addDataTime");
-    console.log(endDate);
     setStartDate(startDate);
     setEndDate(endDate);
   };
