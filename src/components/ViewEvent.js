@@ -94,11 +94,12 @@ const ViewEvent = ({ event, close, remove, edit }) => {
               <FontAwesomeIcon icon={faCalendarAlt} className={styles.icon} />
               <p className={styles.date_text}>{formatDates()}</p>
             </div>
-
-            <div className={styles.span}>
-              <FontAwesomeIcon icon={faClipboard} className={styles.icon} />
-              <p className={styles.event_text}>{event.eventDetail}</p>
-            </div>
+            {event.eventDetail && (
+              <div className={styles.span}>
+                <FontAwesomeIcon icon={faClipboard} className={styles.icon} />
+                <p className={styles.event_text}>{event.eventDetail}</p>
+              </div>
+            )}
           </section>
         </div>
       ) : (

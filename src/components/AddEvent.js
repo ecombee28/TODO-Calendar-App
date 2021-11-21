@@ -8,8 +8,8 @@ import ColorPicker from "./ColorPicker";
 
 const AddEvent = ({ date, close, add, id }) => {
   const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [startDate, setStartDate] = useState(date.start);
+  const [endDate, setEndDate] = useState(date.start);
   const [notes, setNotes] = useState("");
   const [allDay, setAllDay] = useState(true);
   const [color, setColor] = useState("#457dcc");
@@ -21,7 +21,6 @@ const AddEvent = ({ date, close, add, id }) => {
       title.length === 0 ||
       startDate.length === 0 ||
       endDate.length === 0 ||
-      notes.length === 0 ||
       color.length === 0
     ) {
       setShowError(true);
@@ -84,9 +83,9 @@ const AddEvent = ({ date, close, add, id }) => {
         ></input>
 
         {allDay ? (
-          <DatePicker sDate={null} eDate={null} add={addDate} />
+          <DatePicker sDate={date.start} eDate={date.start} add={addDate} />
         ) : (
-          <DateTime sDate={null} eDate={null} add={addDateTime} />
+          <DateTime sDate={date.start} eDate={date.start} add={addDateTime} />
         )}
         <div className={styles.check_box_wrapper}>
           <input
