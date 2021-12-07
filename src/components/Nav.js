@@ -9,9 +9,10 @@ const Nav = () => {
 
   useEffect(() => {
     const getUserName = () => {
+      let tokenKey = window.sessionStorage.getItem("token");
       let user = window.sessionStorage.getItem("username");
 
-      if (!user) {
+      if (!tokenKey) {
         navigate("/");
       } else {
         setUserName(user);
@@ -24,6 +25,8 @@ const Nav = () => {
   const signOut = () => {
     window.sessionStorage.removeItem("username");
     window.localStorage.removeItem("events");
+    window.sessionStorage.removeItem("token");
+    window.sessionStorage.removeItem("type");
     navigate("/");
   };
 

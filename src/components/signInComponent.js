@@ -4,6 +4,7 @@ import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import axios from "axios";
 
 const SignInComponent = ({ changeView }) => {
   const [userName, setUserName] = useState("");
@@ -12,50 +13,64 @@ const SignInComponent = ({ changeView }) => {
   const [loading, setLoading] = useState(false);
   let navigate = useNavigate();
 
-  const updateUserName = (e) => {
-    setUserName(e.target.value);
-  };
-
-  const updatePassword = (e) => {
-    setPassword(e.target.value);
-  };
-
   const handleFormValidation = () => {
     let error = false;
 
-    if (userName.length < 4 || userName.length > 12) {
+    if (userName.length < 1) {
       error = true;
-      setErrorMsg("Username must be between 4 and 12 characters");
-    } else if (password.length < 4 || password.length > 12) {
+      setErrorMsg("You must enter in a Username");
+    } else if (password.length < 1) {
       error = true;
-      setErrorMsg("Password must be between 4 and 12 characters");
+      setErrorMsg("You must enter in a Password");
     }
 
     if (!error) {
       setErrorMsg("");
-      signIn();
+      submitLogin();
     } else {
       setTimeout(() => {
         setErrorMsg("");
-        setPassword("");
       }, 4000);
     }
   };
 
-  const signIn = () => {
-    if (userName === "admin" && password === "123456") {
-      setLoading(true);
+  const submitLogin = async () => {
+    setLoading(true);
+    const requestOptions = {
+      method: "POST",
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify(
+        `grant_type=&username=${userName}&password=${password}&scope=&client_id=&client_secret=`
+      ),
+    };
+
+    const response = await fetch("http://localhost/token", requestOptions);
+    const data = await response.json();
+
+    if (!response.ok) {
+      setErrorMsg(data.detail);
+    } else {
+      console.log(data);
+      window.sessionStorage.setItem("token", data.access_token);
+      window.sessionStorage.setItem("type", data.token_type);
       window.sessionStorage.setItem("username", userName);
+
       setTimeout(() => {
         setLoading(false);
         navigate("/Home");
-      }, 4000);
-    } else {
-      setErrorMsg("The username and/or password is incorrect");
-      setTimeout(() => {
-        setErrorMsg("");
-      }, 6000);
+      }, 2000);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    handleFormValidation();
   };
 
   return (
@@ -63,7 +78,7 @@ const SignInComponent = ({ changeView }) => {
       <div className={styles.signin_container}>
         <p className={styles.title}>Sign In</p>
         <p className={styles.signUp}>
-          New to RemindMe?{" "}
+          New to RemindMe?
           <span onClick={() => changeView("signup")}>Sign Up</span>
         </p>
         <div className={styles.sigin_wrapper}>
@@ -76,7 +91,7 @@ const SignInComponent = ({ changeView }) => {
                 className={styles.input_field}
                 value={userName}
                 required
-                onChange={updateUserName}
+                onChange={(e) => setUserName(e.target.value)}
                 autoComplete="off"
               />
             </span>
@@ -87,16 +102,12 @@ const SignInComponent = ({ changeView }) => {
                 placeholder="Password"
                 className={styles.input_field}
                 value={password}
-                onChange={updatePassword}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </span>
-
-            <button
-              className={styles.signin_btn}
-              onClick={handleFormValidation}
-            >
+            <button className={styles.signin_btn} onClick={handleSubmit}>
               <span>
-                Sign In
+                Sign Up
                 {loading && (
                   <Loader
                     type="ThreeDots"

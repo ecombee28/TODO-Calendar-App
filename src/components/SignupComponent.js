@@ -15,21 +15,6 @@ const SignupComponent = ({ changeView }) => {
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
 
-  const updateEmail = (e) => {
-    setEmail(e.target.value);
-  };
-
-  const updateUserName = (e) => {
-    setUserName(e.target.value);
-  };
-
-  const updatePassword = (e) => {
-    setPassword(e.target.value);
-  };
-  const updateConfirmedPassword = (e) => {
-    setConfirmedPassword(e.target.value);
-  };
-
   const handleFormValidation = () => {
     let error = false;
 
@@ -39,20 +24,20 @@ const SignupComponent = ({ changeView }) => {
     } else if (!validator.isEmail(email)) {
       error = true;
       setErrorMsg("Invalid email address");
-    } else if (userName.length < 4 || userName.length > 12) {
+    } else if (userName.length < 8) {
       error = true;
-      setErrorMsg("Username must be between 4 and 12 characters");
+      setErrorMsg("Username must be bigger then 8 characters");
     } else if (password.length < 1 || confirmedPassword.length < 1) {
       error = true;
       setErrorMsg("Both Password's are required!");
     } else if (
-      password.length < 4 ||
+      password.length < 8 ||
       password.length > 12 ||
-      confirmedPassword.length < 4 ||
+      confirmedPassword.length < 8 ||
       confirmedPassword.length > 12
     ) {
       error = true;
-      setErrorMsg("Passwords must be between 4 and 12 characters");
+      setErrorMsg("Passwords must be bigger then 8 characters");
     } else if (confirmedPassword !== password) {
       error = true;
       setErrorMsg("Passwords must match");
@@ -63,7 +48,7 @@ const SignupComponent = ({ changeView }) => {
     if (!error) {
       setErrorMsg("");
 
-      signIn();
+      signUp();
     } else {
       setTimeout(() => {
         setErrorMsg("");
@@ -71,17 +56,70 @@ const SignupComponent = ({ changeView }) => {
     }
   };
 
-  const signIn = () => {
-    //make a call to the api
+  const signUp = async () => {
+    // setLoading(true);
+    const requestOptions = {
+      method: "POST",
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        username: `${userName}`,
+        email: `${email}`,
+        password: `${password}`,
+      }),
+    };
 
-    setLoading(true);
+    const response = await fetch(
+      "http://localhost/auth/signup",
+      requestOptions
+    );
+    const data = await response.json();
 
-    setTimeout(() => {
-      window.sessionStorage.setItem("username", userName);
-      setLoading(false);
-      navigate("/Home");
-    }, 4000);
+    if (!response.ok) {
+      setErrorMsg(data.detail[0].msg);
+    } else {
+      submitLogin();
+    }
   };
+
+  const submitLogin = async () => {
+    setLoading(true);
+    const requestOptions = {
+      method: "POST",
+      mode: "cors", // no-cors, *cors, same-origin
+      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
+      credentials: "same-origin", // include, *same-origin, omit
+      headers: {
+        accept: "application/json",
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      body: JSON.stringify(
+        `grant_type=&username=${userName}&password=${password}&scope=&client_id=&client_secret=`
+      ),
+    };
+
+    const response = await fetch("http://localhost/token", requestOptions);
+    const data = await response.json();
+
+    if (!response.ok) {
+      setErrorMsg(data.detail);
+    } else {
+      window.sessionStorage.setItem("token", data.access_token);
+      window.sessionStorage.setItem("type", data.token_type);
+      window.sessionStorage.setItem("username", userName);
+
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/Home");
+      }, 2000);
+    }
+  };
+
   return (
     <div>
       <div className={styles.signin_container}>
@@ -101,7 +139,7 @@ const SignupComponent = ({ changeView }) => {
                 className={styles.input_field}
                 value={email}
                 required
-                onChange={updateEmail}
+                onChange={(e) => setEmail(e.target.value)}
                 autoComplete="off"
               />
             </span>
@@ -114,7 +152,7 @@ const SignupComponent = ({ changeView }) => {
                 className={styles.input_field}
                 value={userName}
                 required
-                onChange={updateUserName}
+                onChange={(e) => setUserName(e.target.value)}
                 autoComplete="off"
               />
             </span>
@@ -126,7 +164,7 @@ const SignupComponent = ({ changeView }) => {
                 placeholder="Password"
                 className={styles.input_field}
                 value={password}
-                onChange={updatePassword}
+                onChange={(e) => setPassword(e.target.value)}
               />
             </span>
 
@@ -137,7 +175,7 @@ const SignupComponent = ({ changeView }) => {
                 placeholder="Confirm Password"
                 className={styles.input_field}
                 value={confirmedPassword}
-                onChange={updateConfirmedPassword}
+                onChange={(e) => setConfirmedPassword(e.target.value)}
               />
             </span>
 
