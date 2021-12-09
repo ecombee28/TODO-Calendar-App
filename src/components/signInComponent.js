@@ -40,7 +40,9 @@ const SignInComponent = ({ changeView }) => {
       mode: "cors", // no-cors, *cors, same-origin
       cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
       credentials: "same-origin", // include, *same-origin, omit
+
       headers: {
+        "Access-Control-Allow-Headers": "*",
         accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -106,7 +108,7 @@ const SignInComponent = ({ changeView }) => {
             </span>
             <button className={styles.signin_btn} onClick={handleSubmit}>
               <span>
-                Sign Up
+                Sign In
                 {loading && (
                   <Loader
                     type="ThreeDots"

@@ -27,7 +27,7 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-var id = 6;
+var id = events.length + 1;
 
 function CalendarComp() {
   const [showEvent, setShowEvent] = useState(false);
