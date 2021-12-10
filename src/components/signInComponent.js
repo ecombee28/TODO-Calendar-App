@@ -36,7 +36,7 @@ const SignInComponent = ({ changeView }) => {
   const submitLogin = async () => {
     const requestOptions = {
       method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
+      mode: "no-cors", // no-cors, *cors, same-origin
       headers: {
         accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
