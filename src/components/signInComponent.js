@@ -64,10 +64,10 @@ const SignInComponent = ({ changeView }) => {
       window.sessionStorage.setItem("type", data.token_type);
       window.sessionStorage.setItem("username", userName);
 
-      // setTimeout(() => {
-      //   setLoading(false);
-      //   navigate("/Home");
-      // }, 2000);
+      setTimeout(() => {
+        setLoading(false);
+        navigate("/Home");
+      }, 2000);
     }
   };
 
@@ -126,13 +126,13 @@ const SignInComponent = ({ changeView }) => {
               </button>
             </form>
 
-            {/* <div
+            <div
               className={`${styles.error_msg} ${
                 errorMsg.length > 0 && styles.show_error_msg
               }`}
             >
               <p>{errorMsg}</p>
-            </div> */}
+            </div>
           </div>
         </div>
       </div>
