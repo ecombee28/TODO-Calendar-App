@@ -55,6 +55,7 @@ const SignInComponent = ({ changeView }) => {
 
     if (!response.ok) {
       setErrorMsg(data.detail);
+      console.log(data);
     } else {
       console.log(data);
       window.sessionStorage.setItem("token", data.access_token);
