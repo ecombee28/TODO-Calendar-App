@@ -23,6 +23,9 @@ const ViewEvent = ({ event, close, remove, edit }) => {
     let startStr = startHour <= 11 ? "am" : "pm";
     let endStr = endHour <= 11 ? "am" : "pm";
 
+    console.log(event.start.getHours());
+    console.log(event.end.getHours());
+
     if (event.allDay) {
       if (!isEqual(event.start, event.end)) {
         returnDate =

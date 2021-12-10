@@ -34,15 +34,11 @@ const SignInComponent = ({ changeView }) => {
   };
 
   const submitLogin = async () => {
-    setLoading(true);
+    //setLoading(true);
     const requestOptions = {
       method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
-
+      mode: "no-cors", // no-cors, *cors, same-origin
       headers: {
-        "Access-Control-Allow-Headers": "*",
         accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
       },
@@ -51,7 +47,12 @@ const SignInComponent = ({ changeView }) => {
       ),
     };
 
-    const response = await fetch("http://localhost/token", requestOptions);
+    const response = await fetch(
+      "http://api.gurule.rocks/token",
+      requestOptions
+    );
+
+    //console.log(response.json());
     const data = await response.json();
 
     if (!response.ok) {

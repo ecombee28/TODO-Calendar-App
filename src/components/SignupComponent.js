@@ -75,7 +75,7 @@ const SignupComponent = ({ changeView }) => {
     };
 
     const response = await fetch(
-      "http://localhost/auth/signup",
+      "http://api.gurule.rocks/auth/signup",
       requestOptions
     );
     const data = await response.json();
