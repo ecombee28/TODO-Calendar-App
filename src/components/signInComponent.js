@@ -36,7 +36,7 @@ const SignInComponent = ({ changeView }) => {
   const submitLogin = async () => {
     const requestOptions = {
       method: "POST",
-      mode: "no-cors", // no-cors, *cors, same-origin
+      mode: "cors", // no-cors, *cors, same-origin
       headers: {
         accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
@@ -51,12 +51,14 @@ const SignInComponent = ({ changeView }) => {
       requestOptions
     );
 
-    const data = await response.json;
+    const data = await response.json();
 
     if (!response.ok) {
-      setErrorMsg(data.detail);
+      console.log("error");
+      //setErrorMsg(data.detail);
       console.log(data);
     } else {
+      console.log("pass");
       console.log(data);
       window.sessionStorage.setItem("token", data.access_token);
       window.sessionStorage.setItem("type", data.token_type);
@@ -84,42 +86,45 @@ const SignInComponent = ({ changeView }) => {
         </p>
         <div className={styles.sigin_wrapper}>
           <div className={styles.form}>
-            <span className={styles.input_span}>
-              <FontAwesomeIcon icon={faUser} className={styles.icon} />
-              <input
-                type="text"
-                placeholder="Username"
-                className={styles.input_field}
-                value={userName}
-                required
-                onChange={(e) => setUserName(e.target.value)}
-                autoComplete="off"
-              />
-            </span>
-            <span className={styles.input_span}>
-              <FontAwesomeIcon icon={faLock} className={styles.icon} />
-              <input
-                type="password"
-                placeholder="Password"
-                className={styles.input_field}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </span>
-            <button className={styles.signin_btn} onClick={handleSubmit}>
-              <span>
-                Sign In
-                {loading && (
-                  <Loader
-                    type="ThreeDots"
-                    color="#b9e6e3"
-                    height={40}
-                    width={40}
-                    className={styles.loader}
-                  />
-                )}
+            <form className="box" onSubmit={handleSubmit}>
+              <span className={styles.input_span}>
+                <FontAwesomeIcon icon={faUser} className={styles.icon} />
+
+                <input
+                  type="text"
+                  placeholder="Username"
+                  className={styles.input_field}
+                  value={userName}
+                  required
+                  onChange={(e) => setUserName(e.target.value)}
+                  autoComplete="off"
+                />
               </span>
-            </button>
+              <span className={styles.input_span}>
+                <FontAwesomeIcon icon={faLock} className={styles.icon} />
+                <input
+                  type="password"
+                  placeholder="Password"
+                  className={styles.input_field}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+              </span>
+              <button className={styles.signin_btn} type="submit">
+                <span>
+                  Sign In
+                  {loading && (
+                    <Loader
+                      type="ThreeDots"
+                      color="#b9e6e3"
+                      height={40}
+                      width={40}
+                      className={styles.loader}
+                    />
+                  )}
+                </span>
+              </button>
+            </form>
 
             {/* <div
               className={`${styles.error_msg} ${

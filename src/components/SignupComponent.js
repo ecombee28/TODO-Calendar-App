@@ -60,15 +60,15 @@ const SignupComponent = ({ changeView }) => {
     // setLoading(true);
     const requestOptions = {
       method: "POST",
-      mode: "no-cors", // no-cors, *cors, same-origin
+      mode: "cors", // no-cors, *cors, same-origin
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: `ecombee00`,
-        email: `ecombee28@gmail.com`,
-        password: `jorden2009`,
+        username: `${userName}`,
+        email: `${email}`,
+        password: `${password}`,
       }),
     };
 
@@ -79,14 +79,16 @@ const SignupComponent = ({ changeView }) => {
     const data = await response;
 
     if (!response.ok) {
+      console.log("error in signup");
       console.log(data);
       setErrorMsg(data.detail[0].msg);
     } else {
+      console.log("pass in signup");
       console.log(data);
       submitLogin();
     }
   };
-
+  //***************************************************************** */
   const submitLogin = async () => {
     setLoading(true);
     const requestOptions = {
@@ -119,6 +121,11 @@ const SignupComponent = ({ changeView }) => {
         navigate("/Home");
       }, 2000);
     }
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    submitLogin();
   };
 
   return (
