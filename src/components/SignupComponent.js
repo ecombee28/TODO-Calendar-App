@@ -76,11 +76,13 @@ const SignupComponent = ({ changeView }) => {
       "https://api.gurule.rocks/auth/signup",
       requestOptions
     );
-    const data = await response.json();
+    const data = await response;
 
     if (!response.ok) {
+      console.log(data);
       setErrorMsg(data.detail[0].msg);
     } else {
+      console.log(data);
       submitLogin();
     }
   };
