@@ -24,18 +24,13 @@ const SignupComponent = ({ changeView }) => {
     } else if (!validator.isEmail(email)) {
       error = true;
       setErrorMsg("Invalid email address");
-    } else if (userName.length < 8) {
+    } else if (userName.length < 5) {
       error = true;
-      setErrorMsg("Username must be bigger then 8 characters");
+      setErrorMsg("Username must be bigger then 5 characters");
     } else if (password.length < 1 || confirmedPassword.length < 1) {
       error = true;
       setErrorMsg("Both Password's are required!");
-    } else if (
-      password.length < 8 ||
-      password.length > 12 ||
-      confirmedPassword.length < 8 ||
-      confirmedPassword.length > 12
-    ) {
+    } else if (password.length < 8 || confirmedPassword.length < 8) {
       error = true;
       setErrorMsg("Passwords must be bigger then 8 characters");
     } else if (confirmedPassword !== password) {
@@ -57,7 +52,7 @@ const SignupComponent = ({ changeView }) => {
   };
 
   const signUp = async () => {
-    // setLoading(true);
+    setLoading(true);
     const requestOptions = {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
@@ -71,7 +66,7 @@ const SignupComponent = ({ changeView }) => {
         password: `${password}`,
       }),
     };
-
+    //status 404 already a member  data.status
     const response = await fetch(
       "https://api.gurule.rocks/auth/signup",
       requestOptions
@@ -79,11 +74,12 @@ const SignupComponent = ({ changeView }) => {
     const data = await response;
 
     if (!response.ok) {
-      console.log("error in signup");
-      console.log(data);
-      setErrorMsg(data.detail[0].msg);
+      if (data.status === "404") {
+        setErrorMsg("Username already exist");
+      } else {
+        setErrorMsg(data.detail[0].msg);
+      }
     } else {
-      console.log("pass in signup");
       console.log(data);
       submitLogin();
     }
@@ -93,7 +89,7 @@ const SignupComponent = ({ changeView }) => {
     setLoading(true);
     const requestOptions = {
       method: "POST",
-      mode: "no-cors", // no-cors, *cors, same-origin
+      mode: "cors", // no-cors, *cors, same-origin
       headers: {
         accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
@@ -121,11 +117,6 @@ const SignupComponent = ({ changeView }) => {
         navigate("/Home");
       }, 2000);
     }
-  };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    submitLogin();
   };
 
   return (
