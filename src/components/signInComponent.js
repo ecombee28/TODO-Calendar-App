@@ -36,7 +36,7 @@ const SignInComponent = ({ changeView }) => {
   const submitLogin = async () => {
     const requestOptions = {
       method: "POST",
-      mode: "no-cors", // no-cors, *cors, same-origin
+      mode: "cors", // no-cors, *cors, same-origin
       headers: {
         accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
@@ -47,7 +47,7 @@ const SignInComponent = ({ changeView }) => {
     };
 
     const response = await fetch(
-      "http://api.gurule.rocks/token",
+      "https://api.gurule.rocks/token",
       requestOptions
     );
 
