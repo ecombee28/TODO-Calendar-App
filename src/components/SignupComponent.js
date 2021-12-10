@@ -60,9 +60,7 @@ const SignupComponent = ({ changeView }) => {
     // setLoading(true);
     const requestOptions = {
       method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      mode: "no-cors", // no-cors, *cors, same-origin
       headers: {
         accept: "application/json",
         "Content-Type": "application/json",
@@ -75,7 +73,7 @@ const SignupComponent = ({ changeView }) => {
     };
 
     const response = await fetch(
-      "http://api.gurule.rocks/auth/signup",
+      "https://api.gurule.rocks/auth/signup",
       requestOptions
     );
     const data = await response.json();
@@ -91,9 +89,7 @@ const SignupComponent = ({ changeView }) => {
     setLoading(true);
     const requestOptions = {
       method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
-      cache: "no-cache", // *default, no-cache, reload, force-cache, only-if-cached
-      credentials: "same-origin", // include, *same-origin, omit
+      mode: "no-cors", // no-cors, *cors, same-origin
       headers: {
         accept: "application/json",
         "Content-Type": "application/x-www-form-urlencoded",
@@ -103,7 +99,10 @@ const SignupComponent = ({ changeView }) => {
       ),
     };
 
-    const response = await fetch("http://localhost/token", requestOptions);
+    const response = await fetch(
+      "https://api.gurule.rocks/token",
+      requestOptions
+    );
     const data = await response.json();
 
     if (!response.ok) {
