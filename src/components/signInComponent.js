@@ -120,13 +120,13 @@ const SignInComponent = ({ changeView }) => {
               </span>
             </button>
 
-            <div
+            {/* <div
               className={`${styles.error_msg} ${
                 errorMsg.length > 0 && styles.show_error_msg
               }`}
             >
               <p>{errorMsg}</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
