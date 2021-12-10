@@ -51,8 +51,9 @@ const SignInComponent = ({ changeView }) => {
       requestOptions
     );
 
-    //console.log(response.json());
-    const data = await response.json();
+    const data = await response;
+
+    console.log(data);
 
     if (!response.ok) {
       setErrorMsg(data.detail);
