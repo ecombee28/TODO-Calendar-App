@@ -66,9 +66,9 @@ const SignupComponent = ({ changeView }) => {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        username: `${userName}`,
-        email: `${email}`,
-        password: `${password}`,
+        username: `ecombee00`,
+        email: `ecombee28@gmail.com`,
+        password: `jorden2009`,
       }),
     };
 
