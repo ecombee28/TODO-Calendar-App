@@ -53,8 +53,6 @@ const SignInComponent = ({ changeView }) => {
 
     const data = await response;
 
-    console.log(data);
-
     if (!response.ok) {
       setErrorMsg(data.detail);
     } else {
@@ -63,10 +61,10 @@ const SignInComponent = ({ changeView }) => {
       window.sessionStorage.setItem("type", data.token_type);
       window.sessionStorage.setItem("username", userName);
 
-      setTimeout(() => {
-        setLoading(false);
-        navigate("/Home");
-      }, 2000);
+      // setTimeout(() => {
+      //   setLoading(false);
+      //   navigate("/Home");
+      // }, 2000);
     }
   };
 
