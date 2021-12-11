@@ -106,9 +106,6 @@ function CalendarComp() {
     isVacationChecked,
   ]);
 
-  console.log(filteredEvents);
-  console.log(events);
-
   return (
     <div className={styles.main_container}>
       <>

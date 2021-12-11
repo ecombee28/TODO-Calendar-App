@@ -84,7 +84,7 @@ const SignInComponent = ({ changeView }) => {
         </p>
         <div className={styles.sigin_wrapper}>
           <div className={styles.form}>
-            <form className="box" onSubmit={handleSubmit}>
+            <form className={styles.form_box} onSubmit={handleSubmit}>
               <span className={styles.input_span}>
                 <FontAwesomeIcon icon={faUser} className={styles.icon} />
 

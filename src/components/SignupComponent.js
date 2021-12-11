@@ -18,6 +18,7 @@ const SignupComponent = ({ changeView }) => {
 
   const handleFormValidation = () => {
     let error = false;
+    setLoading(true);
 
     if (email.length < 1) {
       error = true;
@@ -53,7 +54,6 @@ const SignupComponent = ({ changeView }) => {
   };
 
   const signUp = async () => {
-    setLoading(true);
     const requestOptions = {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
@@ -82,43 +82,37 @@ const SignupComponent = ({ changeView }) => {
         setErrorMsg(data.detail[0].msg);
       }
     } else {
-      console.log(data);
-      submitLogin();
-    }
-  };
-  //***************************************************************** */
-  const submitLogin = async () => {
-    setLoading(true);
-    const requestOptions = {
-      method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: JSON.stringify(
-        `grant_type=&username=${userName}&password=${password}&scope=&client_id=&client_secret=`
-      ),
-    };
+      const requestOptions = {
+        method: "POST",
+        mode: "cors", // no-cors, *cors, same-origin
+        headers: {
+          accept: "application/json",
+          "Content-Type": "application/x-www-form-urlencoded",
+        },
+        body: JSON.stringify(
+          `grant_type=&username=${userName}&password=${password}&scope=&client_id=&client_secret=`
+        ),
+      };
 
-    const response = await fetch(
-      "https://api.gurule.rocks/token",
-      requestOptions
-    );
-    const data = await response.json();
+      const response = await fetch(
+        "https://api.gurule.rocks/token",
+        requestOptions
+      );
+      const data = await response.json();
 
-    if (!response.ok) {
-      setLoading(false);
-      setErrorMsg(data.detail);
-    } else {
-      window.sessionStorage.setItem("token", data.access_token);
-      window.sessionStorage.setItem("type", data.token_type);
-      window.sessionStorage.setItem("username", userName);
-
-      setTimeout(() => {
+      if (!response.ok) {
         setLoading(false);
-        navigate("/Home");
-      }, 2000);
+        setErrorMsg(data.detail);
+      } else {
+        Cookie.set("token", data.access_token, { expires: 1 });
+        Cookie.set("type", data.token_type, { expires: 1 });
+        Cookie.set("username", userName, { expires: 1 });
+
+        setTimeout(() => {
+          setLoading(false);
+          navigate("/Home");
+        }, 2000);
+      }
     }
   };
 

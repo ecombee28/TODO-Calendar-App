@@ -1,6 +1,7 @@
 .nav {
     width: 100%;
     height: auto;
+    min-height: 40px;
     background-color: var(--blue);
     display: flex;
     justify-content: space-between;
@@ -49,9 +50,34 @@
         object-fit: cover;
         margin-bottom: 10px;
     }
+
     .user_wrapper {
         gap: 10px;
     }
+
+    .signOut_btn {
+        padding: 2px 5px;
+    }
+}
+
+@media screen and (max-width:480px) {
+    .nav {
+
+        padding-left: 15px;
+        padding-right: 15px;
+
+    }
+
+    .logo {
+        width: 90px;
+        object-fit: cover;
+        margin-bottom: 10px;
+    }
+
+    .user_wrapper {
+        gap: 10px;
+    }
+
     .signOut_btn {
         padding: 2px 5px;
     }

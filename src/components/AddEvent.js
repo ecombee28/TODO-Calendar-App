@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import styles from "../Styles/Components_Style/addEvent.module.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -10,22 +10,28 @@ import { FilteredContext } from "../globalState/filteredEvents";
 import { addEvent } from "../API/api";
 
 const AddEvent = ({ date, close }) => {
-  const [events, setEvents] = useContext(Context);
-  const [filteredEvents, setFilteredEvents] = useContext(FilteredContext);
+  const [, setEvents] = useContext(Context);
+  const [, setFilteredEvents] = useContext(FilteredContext);
   const [title, setTitle] = useState("");
-  const [startDate, setStartDate] = useState(date.start);
-  const [endDate, setEndDate] = useState(date.start);
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
   const [notes, setNotes] = useState("");
   const [allDay, setAllDay] = useState(true);
   const [color, setColor] = useState("#457dcc");
   const [eventType, setEventType] = useState("");
   const [showError, setShowError] = useState(false);
 
+  useEffect(() => {
+    setStartDate(date.start);
+    setEndDate(date.start);
+  }, [date]);
+
   const validateInput = () => {
     if (
       title.length === 0 ||
       startDate.length === 0 ||
       endDate.length === 0 ||
+      eventType.length === 0 ||
       color.length === 0
     ) {
       setShowError(true);
