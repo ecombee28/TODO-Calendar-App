@@ -74,14 +74,12 @@ const SignupComponent = ({ changeView }) => {
     const data = await response;
 
     if (!response.ok) {
-      // if (data.status === "404") {
-      //   setErrorMsg("Username already exist");
-      // } else {
-      //   setErrorMsg(data.detail[0].msg);
-      // }
-
-      console.log(data.status);
-      console.log(data);
+      if (data.status === 404) {
+        setErrorMsg("Username already exist");
+        setLoading(false);
+      } else {
+        setErrorMsg(data.detail[0].msg);
+      }
     } else {
       console.log(data);
       submitLogin();
