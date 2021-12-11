@@ -197,6 +197,7 @@
     }
 
     .loader {
+        top: 5px;
         right: 10px;
     }
 }

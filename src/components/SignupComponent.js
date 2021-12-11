@@ -6,6 +6,7 @@ import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import Loader from "react-loader-spinner";
 import Cookie from "js-cookie";
+import emailjs from "emailjs-com";
 
 const SignupComponent = ({ changeView }) => {
   const [loading, setLoading] = useState(false);
@@ -16,9 +17,16 @@ const SignupComponent = ({ changeView }) => {
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
 
-  const handleFormValidation = () => {
+  const serviceId = process.env.REACT_APP_SERVICE_ID;
+  const userId = process.env.REACT_APP_USER_ID;
+  const template = process.env.REACT_APP_TEMPLATE;
+  emailjs.init(userId);
+
+  const handleFormValidation = (e) => {
     let error = false;
     setLoading(true);
+
+    e.preventDefault();
 
     if (email.length < 1) {
       error = true;
@@ -44,16 +52,17 @@ const SignupComponent = ({ changeView }) => {
 
     if (!error) {
       setErrorMsg("");
-
-      signUp();
+      signUp(e);
     } else {
+      setLoading(false);
       setTimeout(() => {
         setErrorMsg("");
       }, 4000);
     }
   };
 
-  const signUp = async () => {
+  const signUp = async (e) => {
+    e.preventDefault();
     const requestOptions = {
       method: "POST",
       mode: "cors", // no-cors, *cors, same-origin
@@ -67,7 +76,7 @@ const SignupComponent = ({ changeView }) => {
         password: `${password}`,
       }),
     };
-    //status 404 already a member  data.status
+
     const response = await fetch(
       "https://api.gurule.rocks/auth/signup",
       requestOptions
@@ -108,12 +117,23 @@ const SignupComponent = ({ changeView }) => {
         Cookie.set("type", data.token_type, { expires: 1 });
         Cookie.set("username", userName, { expires: 1 });
 
+        sendEmail();
+
         setTimeout(() => {
           setLoading(false);
           navigate("/Home");
         }, 2000);
       }
     }
+  };
+
+  const sendEmail = () => {
+    const information = {
+      email: email,
+      username: userName,
+    };
+
+    emailjs.send(serviceId, template, information);
   };
 
   return (
@@ -136,6 +156,7 @@ const SignupComponent = ({ changeView }) => {
                 value={email}
                 required
                 onChange={(e) => setEmail(e.target.value)}
+                autoComplete="true"
               />
             </span>
             <span className={styles.input_span}>
@@ -148,6 +169,7 @@ const SignupComponent = ({ changeView }) => {
                 value={userName}
                 required
                 onChange={(e) => setUserName(e.target.value)}
+                autoComplete="true"
               />
             </span>
 
@@ -159,6 +181,7 @@ const SignupComponent = ({ changeView }) => {
                 className={styles.input_field}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
+                autoComplete="true"
               />
             </span>
 
@@ -170,6 +193,7 @@ const SignupComponent = ({ changeView }) => {
                 className={styles.input_field}
                 value={confirmedPassword}
                 onChange={(e) => setConfirmedPassword(e.target.value)}
+                autoComplete="true"
               />
             </span>
 

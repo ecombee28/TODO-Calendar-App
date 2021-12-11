@@ -94,6 +94,7 @@ const SignInComponent = ({ changeView }) => {
                   className={styles.input_field}
                   value={userName}
                   required
+                  autoComplete="true"
                   onChange={(e) => setUserName(e.target.value)}
                 />
               </span>
@@ -104,6 +105,7 @@ const SignInComponent = ({ changeView }) => {
                   placeholder="Password"
                   className={styles.input_field}
                   value={password}
+                  autoComplete="true"
                   onChange={(e) => setPassword(e.target.value)}
                 />
               </span>
