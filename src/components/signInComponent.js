@@ -4,6 +4,7 @@ import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import Loader from "react-loader-spinner";
+import Cookie from "js-cookie";
 
 const SignInComponent = ({ changeView }) => {
   const [userName, setUserName] = useState("");
@@ -58,11 +59,15 @@ const SignInComponent = ({ changeView }) => {
       setErrorMsg(data.detail);
       console.log(data);
     } else {
-      console.log("pass");
-      console.log(data);
-      window.sessionStorage.setItem("token", data.access_token);
-      window.sessionStorage.setItem("type", data.token_type);
-      window.sessionStorage.setItem("username", userName);
+      //   console.log("pass");
+      //  console.log(data);
+      //   window.sessionStorage.setItem("token", data.access_token);
+      //   window.sessionStorage.setItem("type", data.token_type);
+      //   window.sessionStorage.setItem("username", userName);
+
+      Cookie.set("token", data.access_token, { expires: 1 });
+      Cookie.set("type", data.token_type, { expires: 1 });
+      Cookie.set("username", userName, { expires: 1 });
 
       setTimeout(() => {
         setLoading(false);

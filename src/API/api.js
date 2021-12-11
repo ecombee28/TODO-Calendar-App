@@ -1,16 +1,18 @@
 import { events } from "../events";
+import Cookie from "js-cookie";
 
-const TOKEN = window.sessionStorage.getItem("token");
+const TOKEN = Cookie.get("token");
 const TOKEN_TYPE = window.sessionStorage.getItem("type");
 
 export async function getAllEvents() {
-  console.log(JSON.parse(TOKEN));
+  console.log(Cookie.get("token"));
+
   const requestOptions = {
     method: "GET",
     mode: "cors", // no-cors, *cors, same-origin
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${Cookie.get("token")}`,
     },
   };
 

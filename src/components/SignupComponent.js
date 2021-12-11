@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import validator from "validator";
 import Loader from "react-loader-spinner";
+import Cookie from "js-cookie";
 
 const SignupComponent = ({ changeView }) => {
   const [loading, setLoading] = useState(false);
