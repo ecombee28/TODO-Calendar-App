@@ -55,16 +55,8 @@ const SignInComponent = ({ changeView }) => {
     const data = await response.json();
 
     if (!response.ok) {
-      console.log("error");
       setErrorMsg(data.detail);
-      console.log(data);
     } else {
-      //   console.log("pass");
-      //  console.log(data);
-      //   window.sessionStorage.setItem("token", data.access_token);
-      //   window.sessionStorage.setItem("type", data.token_type);
-      //   window.sessionStorage.setItem("username", userName);
-
       Cookie.set("token", data.access_token, { expires: 1 });
       Cookie.set("type", data.token_type, { expires: 1 });
       Cookie.set("username", userName, { expires: 1 });

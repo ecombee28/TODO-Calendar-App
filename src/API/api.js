@@ -5,8 +5,6 @@ const TOKEN = Cookie.get("token");
 const TOKEN_TYPE = window.sessionStorage.getItem("type");
 
 export async function getAllEvents() {
-  console.log(Cookie.get("token"));
-
   const requestOptions = {
     method: "GET",
     mode: "cors", // no-cors, *cors, same-origin
@@ -23,11 +21,8 @@ export async function getAllEvents() {
   const data = await response.json();
 
   if (!response.ok) {
-    console.log("error from api");
-    console.log(data.detail);
     return [];
   } else {
-    console.log("pass from api");
     return data;
   }
 }
