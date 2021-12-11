@@ -51,7 +51,7 @@ function CalendarComp() {
       const rawEvents = await getAllEvents();
       const data = await getFilteredEvents(rawEvents);
       setEvents(data);
-      //setFilteredEvents(data);
+      setFilteredEvents(data);
     };
 
     getData();
@@ -203,7 +203,7 @@ function CalendarComp() {
               selectable
               localizer={localizer}
               views={{ month: true, day: true, week: true }}
-              events={events}
+              events={filteredEvents}
               showMultiDayTimes
               startAccessor="start"
               endAccessor="end"
