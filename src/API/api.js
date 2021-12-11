@@ -4,7 +4,7 @@ const TOKEN = window.sessionStorage.getItem("token");
 const TOKEN_TYPE = window.sessionStorage.getItem("type");
 
 export async function getAllEvents() {
-  console.log(TOKEN);
+  console.log(JSON.parse(TOKEN));
   const requestOptions = {
     method: "GET",
     mode: "cors", // no-cors, *cors, same-origin
