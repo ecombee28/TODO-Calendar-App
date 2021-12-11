@@ -55,7 +55,7 @@ const SignInComponent = ({ changeView }) => {
 
     if (!response.ok) {
       console.log("error");
-      //setErrorMsg(data.detail);
+      setErrorMsg(data.detail);
       console.log(data);
     } else {
       console.log("pass");
@@ -97,7 +97,6 @@ const SignInComponent = ({ changeView }) => {
                   value={userName}
                   required
                   onChange={(e) => setUserName(e.target.value)}
-                  autoComplete="off"
                 />
               </span>
               <span className={styles.input_span}>

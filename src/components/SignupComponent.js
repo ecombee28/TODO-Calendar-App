@@ -74,9 +74,9 @@ const SignupComponent = ({ changeView }) => {
     const data = await response;
 
     if (!response.ok) {
+      setLoading(false);
       if (data.status === 404) {
         setErrorMsg("Username already exist");
-        setLoading(false);
       } else {
         setErrorMsg(data.detail[0].msg);
       }
@@ -140,7 +140,6 @@ const SignupComponent = ({ changeView }) => {
                 value={email}
                 required
                 onChange={(e) => setEmail(e.target.value)}
-                autoComplete="off"
               />
             </span>
             <span className={styles.input_span}>
@@ -153,7 +152,6 @@ const SignupComponent = ({ changeView }) => {
                 value={userName}
                 required
                 onChange={(e) => setUserName(e.target.value)}
-                autoComplete="off"
               />
             </span>
 
