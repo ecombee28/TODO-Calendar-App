@@ -203,7 +203,7 @@ function CalendarComp() {
               selectable
               localizer={localizer}
               views={{ month: true, day: true, week: true }}
-              events={filteredEvents}
+              events={{}}
               showMultiDayTimes
               startAccessor="start"
               endAccessor="end"
