@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../Styles/Components_Style/viewEvent.module.css";
 import {
   faTrashAlt,
@@ -12,8 +12,13 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { format, isEqual } from "date-fns";
 import EditEvent from "./EditEvent";
+import { deleteEvent } from "../API/api";
+import { Context } from "../globalState/Store";
+import { FilteredContext } from "../globalState/filteredEvents";
 
-const ViewEvent = ({ event, close, remove, edit }) => {
+const ViewEvent = ({ event, close, edit }) => {
+  const [events, setEvents] = useContext(Context);
+  const [filteredEvents, setFilteredEvents] = useContext(FilteredContext);
   const [showEditEvent, setShowEditEvent] = useState(false);
 
   const formatDates = () => {
@@ -53,6 +58,13 @@ const ViewEvent = ({ event, close, remove, edit }) => {
     edit(event);
   };
 
+  const deleteEvents = async () => {
+    const data = await deleteEvent(event.id);
+    setFilteredEvents(data);
+    setEvents(data);
+    close();
+  };
+
   return (
     <div className={styles.blackout}>
       {!showEditEvent ? (
@@ -70,7 +82,7 @@ const ViewEvent = ({ event, close, remove, edit }) => {
                 <FontAwesomeIcon
                   icon={faTrashAlt}
                   className={styles.icon}
-                  onClick={() => remove(event.id)}
+                  onClick={() => deleteEvents()}
                 />
               </li>
               <li>

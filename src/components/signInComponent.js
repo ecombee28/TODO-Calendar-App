@@ -14,6 +14,7 @@ const SignInComponent = ({ changeView }) => {
   let navigate = useNavigate();
 
   const handleFormValidation = () => {
+    setLoading(true);
     let error = false;
 
     if (userName.length < 1) {

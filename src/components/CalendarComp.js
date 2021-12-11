@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Calendar, dateFnsLocalizer } from "react-big-calendar";
 import format from "date-fns/format";
 import parse from "date-fns/parse";
@@ -14,7 +14,8 @@ import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import EventList from "./EventList";
 import { getAllEvents } from "../API/api";
-import { getFilteredEvents } from "../Lib/filterEvents";
+import { Context } from "../globalState/Store";
+import { FilteredContext } from "../globalState/filteredEvents";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -28,14 +29,11 @@ const localizer = dateFnsLocalizer({
   locales,
 });
 
-var id = 5;
-
 function CalendarComp() {
-  const [events, setEvents] = useState([]);
+  const [events, setEvents] = useContext(Context);
   const [showEvent, setShowEvent] = useState(false);
   const [showNewEvent, setShowNewEvent] = useState(false);
-  const [allEvents, setAllEvents] = useState([]);
-  const [filteredEvents, setFilteredEvents] = useState([]);
+  const [filteredEvents, setFilteredEvents] = useContext(FilteredContext);
   const [currentEvent, setCurrentEvent] = useState({});
   const [currentSlot, setCurrentSlot] = useState("");
   const [showMobileOptions, setShoMobileOptions] = useState(false);
@@ -48,10 +46,9 @@ function CalendarComp() {
 
   useEffect(() => {
     const getData = async () => {
-      const rawEvents = await getAllEvents();
-      const data = await getFilteredEvents(rawEvents);
-      setEvents(data);
+      const data = await getAllEvents();
       setFilteredEvents(data);
+      setEvents(data);
     };
 
     getData();
@@ -62,7 +59,7 @@ function CalendarComp() {
     setShowEvent(true);
   };
 
-  const addEvent = (start) => {
+  const showAddEvent = (start) => {
     setCurrentSlot(start);
     setShowNewEvent(true);
   };
@@ -74,34 +71,6 @@ function CalendarComp() {
   const closeCreateEvent = () => {
     setShowNewEvent(false);
   };
-
-  const deleteEvent = (eventId) => {
-    var updatedMasterEvents = allEvents.filter((e) => e.id !== eventId);
-    var updatedFilteredEvents = allEvents.filter((e) => e.id !== eventId);
-
-    setAllEvents(updatedMasterEvents);
-    setFilteredEvents(updatedFilteredEvents);
-    setShowEvent(false);
-  };
-
-  const addNewEvent = (eventObj) => {
-    setAllEvents([...allEvents, eventObj]);
-    setFilteredEvents([...filteredEvents, eventObj]);
-    events.push(eventObj);
-    setShowNewEvent(false);
-  };
-
-  const editEvent = (event) => {
-    filteredEvents.map(
-      (e, i) => e.id === event.id && (filteredEvents[i] = event)
-    );
-
-    allEvents.map((e, i) => e.id === event.id && (allEvents[i] = event));
-  };
-
-  useEffect(() => {
-    localStorage.setItem("events", JSON.stringify(filteredEvents));
-  }, [filteredEvents]);
 
   const filterEventTypes = (e) => {
     let value = e.target.value;
@@ -117,7 +86,7 @@ function CalendarComp() {
       value === "vacation" && setIsVacationChecked(false);
       value === "other" && setIsOtherChecked(false);
     } else {
-      let add = allEvents.filter((f) => f.eventType === value);
+      let add = events.filter((f) => f.eventType === value);
       let combine = filteredEvents.concat(add);
       setFilteredEvents(combine);
       value === "important" && setIsImportantChecked(true);
@@ -137,105 +106,98 @@ function CalendarComp() {
     isVacationChecked,
   ]);
 
+  console.log(filteredEvents);
+  console.log(events);
+
   return (
     <div className={styles.main_container}>
-      {filteredEvents.length > 0 && (
-        <>
-          {console.log(filteredEvents)}
-          <div className={styles.options_container}>
-            <h2>Filters</h2>
-            <OptionsComponent
-              change={filterEventTypes}
-              important={isImportantChecked}
-              work={isWorkChecked}
-              personal={isPersonalChecked}
-              holiday={isHolidayChecked}
-              vacation={isVacationChecked}
-              other={isOtherChecked}
-            />
+      <>
+        <div className={styles.options_container}>
+          <h2>Filters</h2>
+          <OptionsComponent
+            change={filterEventTypes}
+            important={isImportantChecked}
+            work={isWorkChecked}
+            personal={isPersonalChecked}
+            holiday={isHolidayChecked}
+            vacation={isVacationChecked}
+            other={isOtherChecked}
+          />
 
-            <p className={styles.events_title}>All My Events</p>
-            <div className={styles.event_list_container_desktop}>
-              <EventList events={filteredEvents} view={viewEvent} />
-            </div>
+          <p className={styles.events_title}>All My Events</p>
+          <div className={styles.event_list_container_desktop}>
+            <EventList events={filteredEvents} view={viewEvent} />
           </div>
+        </div>
 
-          <button
-            className={`${styles.filter_btn}`}
-            onClick={() => setShoMobileOptions(true)}
-          >
-            Filter
-          </button>
+        <button
+          className={`${styles.filter_btn}`}
+          onClick={() => setShoMobileOptions(true)}
+        >
+          Filter
+        </button>
 
-          <div
-            className={`${styles.mobile_options_container} ${
-              showMobileOptions && styles.show
-            }`}
-          >
-            <div className={styles.blackout}>
-              <div className={styles.mobile_wrapper}>
-                <div className={styles.mobile_options_header}>
-                  <p>Filter Options</p>
-                  <FontAwesomeIcon
-                    icon={faTimes}
-                    className={styles.icon}
-                    onClick={() => setShoMobileOptions(false)}
-                  />
-                </div>
-                <OptionsComponent
-                  change={filterEventTypes}
-                  important={isImportantChecked}
-                  work={isWorkChecked}
-                  personal={isPersonalChecked}
-                  holiday={isHolidayChecked}
-                  vacation={isVacationChecked}
-                  other={isOtherChecked}
+        <div
+          className={`${styles.mobile_options_container} ${
+            showMobileOptions && styles.show
+          }`}
+        >
+          <div className={styles.blackout}>
+            <div className={styles.mobile_wrapper}>
+              <div className={styles.mobile_options_header}>
+                <p>Filter Options</p>
+                <FontAwesomeIcon
+                  icon={faTimes}
+                  className={styles.icon}
+                  onClick={() => setShoMobileOptions(false)}
                 />
-                <div className={styles.event_list_container_desktop}>
-                  <EventList events={filteredEvents} view={viewEvent} />
-                </div>
+              </div>
+              <OptionsComponent
+                change={filterEventTypes}
+                important={isImportantChecked}
+                work={isWorkChecked}
+                personal={isPersonalChecked}
+                holiday={isHolidayChecked}
+                vacation={isVacationChecked}
+                other={isOtherChecked}
+              />
+              <div className={styles.event_list_container_desktop}>
+                <EventList events={filteredEvents} view={viewEvent} />
               </div>
             </div>
           </div>
+        </div>
 
-          <div className={styles.calendar_wrapper}>
-            <Calendar
-              selectable
-              localizer={localizer}
-              views={{ month: true, day: true, week: true }}
-              events={filteredEvents}
-              showMultiDayTimes
-              startAccessor="start"
-              endAccessor="end"
-              onSelectEvent={(event) => viewEvent(event)}
-              eventPropGetter={(event) => {
-                const backgroundColor = event.color;
-                return { style: { backgroundColor } };
-              }}
-              onSelectSlot={addEvent}
-              longPressThreshold={20}
-            />
-          </div>
-          {showEvent && (
-            <ViewEvent
-              event={currentEvent}
-              close={closeEventInformation}
-              remove={deleteEvent}
-              edit={editEvent}
-              longPressThreshold={10}
-            />
-          )}
+        <div className={styles.calendar_wrapper}>
+          <Calendar
+            selectable
+            localizer={localizer}
+            views={{ month: true, day: true, week: true }}
+            events={filteredEvents}
+            showMultiDayTimes
+            startAccessor="start"
+            endAccessor="end"
+            onSelectEvent={(event) => viewEvent(event)}
+            eventPropGetter={(event) => {
+              const backgroundColor = event.color;
+              return { style: { backgroundColor } };
+            }}
+            onSelectSlot={showAddEvent}
+            longPressThreshold={20}
+          />
+        </div>
+        {showEvent && (
+          <ViewEvent
+            event={currentEvent}
+            close={closeEventInformation}
+            longPressThreshold={10}
+          />
+        )}
 
-          {showNewEvent && (
-            <AddEvent
-              date={currentSlot}
-              close={closeCreateEvent}
-              add={addNewEvent}
-              id={id++}
-            />
-          )}
-        </>
-      )}
+        {showNewEvent && (
+          <AddEvent date={currentSlot} close={closeCreateEvent} />
+        )}
+      </>
     </div>
   );
 }

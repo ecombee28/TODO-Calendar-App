@@ -1,12 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../Styles/Components_Style/addEvent.module.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "./DatePicker";
 import DateTime from "./DateTime";
 import ColorPicker from "./ColorPicker";
+import { Context } from "../globalState/Store";
+import { FilteredContext } from "../globalState/filteredEvents";
+import { addEvent } from "../API/api";
 
-const AddEvent = ({ date, close, add, id }) => {
+const AddEvent = ({ date, close }) => {
+  const [events, setEvents] = useContext(Context);
+  const [filteredEvents, setFilteredEvents] = useContext(FilteredContext);
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState(date.start);
   const [endDate, setEndDate] = useState(date.start);
@@ -29,13 +34,12 @@ const AddEvent = ({ date, close, add, id }) => {
         setShowError(false);
       }, 5000);
     } else {
-      addEvent();
+      addNewEvent();
     }
   };
 
-  const addEvent = () => {
+  const addNewEvent = async () => {
     let event = {
-      id: id,
       title: title,
       allDay: allDay,
       start: startDate,
@@ -44,7 +48,11 @@ const AddEvent = ({ date, close, add, id }) => {
       eventType: eventType,
       color: color,
     };
-    add(event);
+
+    const data = await addEvent(event);
+    setEvents(data);
+    setFilteredEvents(data);
+    close();
   };
 
   const addDateTime = (startDate, endDate) => {

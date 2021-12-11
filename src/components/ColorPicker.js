@@ -1,13 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "../Styles/Components_Style/colorPicker.module.css";
 
 const ColorPicker = ({ add, currentColor }) => {
-  const [color, setColor] = useState(currentColor);
+  const [color, setColor] = useState("");
 
-  const setEvent = (event, eventColor) => {
+  const setEvent = (eventType, eventColor) => {
     setColor(eventColor);
-    add(event, eventColor);
+    add(eventType, eventColor);
   };
+
+  useEffect(() => {
+    setColor(currentColor);
+  }, [currentColor]);
 
   return (
     <>

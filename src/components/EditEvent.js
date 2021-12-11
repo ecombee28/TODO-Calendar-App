@@ -1,20 +1,35 @@
-import React, { useState } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../Styles/Components_Style/editEvent.module.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DatePicker from "./DatePicker";
 import DateTime from "./DateTime";
 import ColorPicker from "./ColorPicker";
+import { editEvent } from "../API/api";
+import { Context } from "../globalState/Store";
+import { FilteredContext } from "../globalState/filteredEvents";
 
-const EditEvent = ({ event, close, add }) => {
-  const [title, setTitle] = useState(event.title);
-  const [startDate, setStartDate] = useState(event.start);
-  const [endDate, setEndDate] = useState(event.end);
-  const [notes, setNotes] = useState(event.eventDetail);
-  const [allDay, setAllDay] = useState(event.allDay);
-  const [color, setColor] = useState(event.color);
+const EditEvent = ({ event, close }) => {
+  const [events, setEvents] = useContext(Context);
+  const [filteredEvents, setFilteredEvents] = useContext(FilteredContext);
+  const [title, setTitle] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+  const [notes, setNotes] = useState("");
+  const [allDay, setAllDay] = useState("");
+  const [color, setColor] = useState("");
   const [showError, setShowError] = useState(false);
   const [eventType, setEventType] = useState("");
+
+  useEffect(() => {
+    setTitle(event.title);
+    setStartDate(event.start);
+    setEndDate(event.end);
+    setNotes(event.eventDetail);
+    setAllDay(event.allDay);
+    setEventType(event.eventType);
+    setColor(event.color);
+  }, [event]);
 
   const validateInput = () => {
     if (
@@ -30,11 +45,11 @@ const EditEvent = ({ event, close, add }) => {
         setShowError(false);
       }, 5000);
     } else {
-      editEvent();
+      editEvents();
     }
   };
 
-  const editEvent = () => {
+  const editEvents = async () => {
     let eventObj = {
       id: event.id,
       title: title,
@@ -46,8 +61,9 @@ const EditEvent = ({ event, close, add }) => {
       color: color,
     };
 
-    add(eventObj);
-
+    const data = await editEvent(event.id, eventObj);
+    setFilteredEvents(data);
+    setEvents(data);
     close();
   };
 
