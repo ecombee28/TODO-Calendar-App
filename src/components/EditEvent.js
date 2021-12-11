@@ -10,8 +10,8 @@ import { Context } from "../globalState/Store";
 import { FilteredContext } from "../globalState/filteredEvents";
 
 const EditEvent = ({ event, close }) => {
-  const [events, setEvents] = useContext(Context);
-  const [filteredEvents, setFilteredEvents] = useContext(FilteredContext);
+  const [, setEvents] = useContext(Context);
+  const [, setFilteredEvents] = useContext(FilteredContext);
   const [title, setTitle] = useState("");
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@mui/material/TextField";
 import AdapterDateFns from "@mui/lab/AdapterDateFns";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -7,8 +7,18 @@ import Stack from "@mui/material/Stack";
 import styles from "../Styles/Components_Style/dateTime.module.css";
 
 export default function DateTime({ sDate, eDate, add }) {
-  var [startDate, setStartDate] = useState(sDate);
-  var [endDate, setEndDate] = useState(eDate);
+  var [startDate, setStartDate] = useState("");
+  var [endDate, setEndDate] = useState("");
+
+  useEffect(() => {
+    setStartDate(sDate);
+    setEndDate(eDate);
+
+    return () => {
+      setStartDate("");
+      setEndDate("");
+    };
+  }, [sDate, eDate]);
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -21,7 +31,6 @@ export default function DateTime({ sDate, eDate, add }) {
             onChange={(start) => {
               setStartDate(start);
             }}
-            minDate={new Date()}
           />
           <DateTimePicker
             renderInput={(params) => <TextField {...params} />}
@@ -31,7 +40,6 @@ export default function DateTime({ sDate, eDate, add }) {
             onChange={(end) => {
               setEndDate(end);
             }}
-            minDate={new Date()}
           />
         </div>
       </Stack>

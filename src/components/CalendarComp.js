@@ -43,15 +43,23 @@ function CalendarComp() {
   const [isHolidayChecked, setIsHolidayChecked] = useState(true);
   const [isVacationChecked, setIsVacationChecked] = useState(true);
   const [isOtherChecked, setIsOtherChecked] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const getData = async () => {
+      setIsLoading(true);
       const data = await getAllEvents();
       setFilteredEvents(data);
       setEvents(data);
+      setIsLoading(false);
     };
 
     getData();
+
+    return function cleanUp() {
+      setFilteredEvents("");
+      setEvents("");
+    };
   }, []);
 
   const viewEvent = (event) => {
@@ -108,93 +116,96 @@ function CalendarComp() {
 
   return (
     <div className={styles.main_container}>
-      <>
-        <div className={styles.options_container}>
-          <h2>Filters</h2>
-          <OptionsComponent
-            change={filterEventTypes}
-            important={isImportantChecked}
-            work={isWorkChecked}
-            personal={isPersonalChecked}
-            holiday={isHolidayChecked}
-            vacation={isVacationChecked}
-            other={isOtherChecked}
-          />
+      {!isLoading ? (
+        <>
+          <div className={styles.options_container}>
+            <h2>Filters</h2>
+            <OptionsComponent
+              change={filterEventTypes}
+              important={isImportantChecked}
+              work={isWorkChecked}
+              personal={isPersonalChecked}
+              holiday={isHolidayChecked}
+              vacation={isVacationChecked}
+              other={isOtherChecked}
+            />
 
-          <p className={styles.events_title}>All My Events</p>
-          <div className={styles.event_list_container_desktop}>
-            <EventList events={filteredEvents} view={viewEvent} />
+            <p className={styles.events_title}>All My Events</p>
+            <div className={styles.event_list_container_desktop}>
+              <EventList events={events} view={viewEvent} />
+            </div>
           </div>
-        </div>
 
-        <button
-          className={`${styles.filter_btn}`}
-          onClick={() => setShoMobileOptions(true)}
-        >
-          Filter
-        </button>
+          <button
+            className={`${styles.filter_btn}`}
+            onClick={() => setShoMobileOptions(true)}
+          >
+            Filter
+          </button>
 
-        <div
-          className={`${styles.mobile_options_container} ${
-            showMobileOptions && styles.show
-          }`}
-        >
-          <div className={styles.blackout}>
-            <div className={styles.mobile_wrapper}>
-              <div className={styles.mobile_options_header}>
-                <p>Filter Options</p>
-                <FontAwesomeIcon
-                  icon={faTimes}
-                  className={styles.icon}
-                  onClick={() => setShoMobileOptions(false)}
+          <div
+            className={`${styles.mobile_options_container} ${
+              showMobileOptions && styles.show
+            }`}
+          >
+            <div className={styles.blackout}>
+              <div className={styles.mobile_wrapper}>
+                <div className={styles.mobile_options_header}>
+                  <p>Filter Options</p>
+                  <FontAwesomeIcon
+                    icon={faTimes}
+                    className={styles.icon}
+                    onClick={() => setShoMobileOptions(false)}
+                  />
+                </div>
+                <OptionsComponent
+                  change={filterEventTypes}
+                  important={isImportantChecked}
+                  work={isWorkChecked}
+                  personal={isPersonalChecked}
+                  holiday={isHolidayChecked}
+                  vacation={isVacationChecked}
+                  other={isOtherChecked}
                 />
-              </div>
-              <OptionsComponent
-                change={filterEventTypes}
-                important={isImportantChecked}
-                work={isWorkChecked}
-                personal={isPersonalChecked}
-                holiday={isHolidayChecked}
-                vacation={isVacationChecked}
-                other={isOtherChecked}
-              />
-              <div className={styles.event_list_container_desktop}>
-                <EventList events={filteredEvents} view={viewEvent} />
+                <div className={styles.event_list_container_desktop}>
+                  <EventList events={events} view={viewEvent} />
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        <div className={styles.calendar_wrapper}>
-          <Calendar
-            selectable
-            localizer={localizer}
-            views={{ month: true, day: true, week: true }}
-            events={filteredEvents}
-            showMultiDayTimes
-            startAccessor="start"
-            endAccessor="end"
-            onSelectEvent={(event) => viewEvent(event)}
-            eventPropGetter={(event) => {
-              const backgroundColor = event.color;
-              return { style: { backgroundColor } };
-            }}
-            onSelectSlot={showAddEvent}
-            longPressThreshold={20}
-          />
-        </div>
-        {showEvent && (
-          <ViewEvent
-            event={currentEvent}
-            close={closeEventInformation}
-            longPressThreshold={10}
-          />
-        )}
+          <div className={styles.calendar_wrapper}>
+            <Calendar
+              selectable
+              localizer={localizer}
+              views={{ month: true, day: true, week: true }}
+              events={filteredEvents}
+              startAccessor="start"
+              endAccessor="end"
+              onSelectEvent={(event) => viewEvent(event)}
+              eventPropGetter={(event) => {
+                const backgroundColor = event.color;
+                return { style: { backgroundColor } };
+              }}
+              onSelectSlot={showAddEvent}
+              longPressThreshold={20}
+            />
+          </div>
+          {showEvent && (
+            <ViewEvent
+              event={currentEvent}
+              close={closeEventInformation}
+              longPressThreshold={10}
+            />
+          )}
 
-        {showNewEvent && (
-          <AddEvent date={currentSlot} close={closeCreateEvent} />
-        )}
-      </>
+          {showNewEvent && (
+            <AddEvent date={currentSlot} close={closeCreateEvent} />
+          )}
+        </>
+      ) : (
+        <h2>Loading.......</h2>
+      )}
     </div>
   );
 }

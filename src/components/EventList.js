@@ -49,7 +49,11 @@ const EventList = ({ events, view }) => {
     <div>
       <div className={styles.list}>
         {events.map((m) => (
-          <div className={styles.list_wrapper} onClick={() => view(m)}>
+          <div
+            className={styles.list_wrapper}
+            onClick={() => view(m)}
+            key={m.id}
+          >
             <div
               className={styles.color_box}
               style={{ backgroundColor: m.color }}

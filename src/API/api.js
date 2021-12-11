@@ -1,18 +1,13 @@
-import { events } from "../events";
 import Cookie from "js-cookie";
 import { getFilteredEvents } from "../Lib/filterEvents";
-import parseISO from "date-fns/parseISO";
-
-const TOKEN = Cookie.get("token");
 
 export async function getAllEvents() {
-  const newEvents = [];
   const requestOptions = {
     method: "GET",
-    mode: "cors", // no-cors, *cors, same-origin
+    mode: "cors",
     headers: {
       accept: "application/json",
-      Authorization: `Bearer ${TOKEN}`,
+      Authorization: `Bearer ${Cookie.get("token")}`,
     },
   };
 
@@ -24,25 +19,10 @@ export async function getAllEvents() {
 
   if (!response.ok) {
     return [];
-  } else {
-    if (events.length > 0) {
-      events.map((e) =>
-        newEvents.push({
-          id: e._id,
-          title: e.name,
-          allDay: e.time_details.all_day,
-          start: parseISO(e.time_details.start_time),
-          end: parseISO(e.time_details.end_time),
-          eventDetail: e.description,
-          eventType: e.tags[0].tag,
-          color: e.presentation.color,
-        })
-      );
-    }
-
-    const results = getFilteredEvents(data);
-    return results;
   }
+
+  const results = getFilteredEvents(data);
+  return results;
 }
 
 /**

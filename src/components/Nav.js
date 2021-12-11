@@ -1,11 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import styles from "../Styles/Components_Style/nav.module.css";
 import logo from "../images/logo.png";
 import { useNavigate } from "react-router-dom";
 import Cookie from "js-cookie";
+import { Context } from "../globalState/Store";
+import { FilteredContext } from "../globalState/filteredEvents";
 
 const Nav = () => {
   const [userName, setUserName] = useState("");
+  const [, setEvents] = useContext(Context);
+  const [, setFilteredEvents] = useContext(FilteredContext);
   let navigate = useNavigate();
 
   useEffect(() => {
@@ -28,6 +32,9 @@ const Nav = () => {
     Cookie.remove("events");
     Cookie.remove("token");
     Cookie.remove("type");
+
+    setFilteredEvents("");
+    setEvents("");
 
     navigate("/");
   };
