@@ -21,7 +21,8 @@ export async function getAllEvents() {
 
   if (!response.ok) {
     console.log("error from api");
-    return data.detail;
+    console.log(data.detail);
+    return [];
   } else {
     console.log("pass from api");
     return data;
