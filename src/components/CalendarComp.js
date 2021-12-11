@@ -51,7 +51,7 @@ function CalendarComp() {
       const rawEvents = await getAllEvents();
       const data = await getFilteredEvents(rawEvents);
       setEvents(data);
-      setFilteredEvents(data);
+      //setFilteredEvents(data);
     };
 
     getData();

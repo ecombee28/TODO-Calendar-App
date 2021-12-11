@@ -9,7 +9,7 @@ export async function getAllEvents() {
     mode: "cors", // no-cors, *cors, same-origin
     headers: {
       accept: "application/json",
-      Authorization: `${TOKEN_TYPE} ${TOKEN}`,
+      Authorization: `Bearer ${TOKEN}`,
     },
   };
 
@@ -20,8 +20,10 @@ export async function getAllEvents() {
   const data = await response.json();
 
   if (!response.ok) {
+    console.log("error from api");
     return data.detail;
   } else {
+    console.log("pass from api");
     return data;
   }
 }
