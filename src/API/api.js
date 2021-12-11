@@ -5,7 +5,7 @@ const TOKEN_TYPE = window.sessionStorage.getItem("type");
 
 export async function getAllEvents() {
   const requestOptions = {
-    method: "POST",
+    method: "GET",
     mode: "cors", // no-cors, *cors, same-origin
     headers: {
       accept: "application/json",

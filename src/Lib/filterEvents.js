@@ -3,7 +3,7 @@ import parseISO from "date-fns/parseISO";
 export const getFilteredEvents = (events) => {
   const newEvents = [];
 
-  if (events) {
+  if (events.length > 0) {
     events.map((e) => {
       newEvents.push({
         id: e._id,
