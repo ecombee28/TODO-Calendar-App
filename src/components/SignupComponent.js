@@ -20,7 +20,7 @@ const SignupComponent = ({ changeView }) => {
   const serviceId = process.env.REACT_APP_SERVICE_ID;
   const userId = process.env.REACT_APP_USER_ID;
   const template = process.env.REACT_APP_TEMPLATE;
-  emailjs.init(userId);
+  emailjs.init(process.env.REACT_APP_USER_ID);
 
   const handleFormValidation = (e) => {
     let error = false;
@@ -133,7 +133,11 @@ const SignupComponent = ({ changeView }) => {
       username: userName,
     };
 
-    emailjs.send(serviceId, template, information);
+    emailjs.send(
+      process.env.REACT_APP_SERVICE_ID,
+      process.env.REACT_APP_TEMPLATE,
+      information
+    );
   };
 
   return (
