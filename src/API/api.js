@@ -145,3 +145,67 @@ export async function editEvent(id, editedEvent) {
     return results;
   }
 }
+
+export async function signIn(userName, password) {
+  const requestOptions = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/x-www-form-urlencoded",
+    },
+    body: JSON.stringify(
+      `grant_type=&username=${userName}&password=${password}&scope=&client_id=&client_secret=`
+    ),
+  };
+
+  const response = await fetch(
+    "https://api.gurule.rocks/token",
+    requestOptions
+  );
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    //setErrorMsg(data.detail);
+    return data.detail;
+  } else {
+    Cookie.set("token", data.access_token, { expires: 1 });
+    Cookie.set("type", data.token_type, { expires: 1 });
+    Cookie.set("username", userName, { expires: 1 });
+  }
+
+  return "Success";
+}
+
+export async function signUp(userName, email, password) {
+  const requestOptions = {
+    method: "POST",
+    mode: "cors",
+    headers: {
+      accept: "application/json",
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      username: `${userName}`,
+      email: `${email}`,
+      password: `${password}`,
+    }),
+  };
+
+  const response = await fetch(
+    "https://api.gurule.rocks/auth/signup",
+    requestOptions
+  );
+  const data = await response;
+
+  if (!response.ok) {
+    if (data.status === 404) {
+      return "Username already exist";
+    } else {
+      return data.detail[0].msg;
+    }
+  }
+
+  return "Success";
+}

@@ -4,7 +4,7 @@ import { faUser, faLock } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useNavigate } from "react-router-dom";
 import Loader from "react-loader-spinner";
-import Cookie from "js-cookie";
+import { signIn } from "../API/api";
 
 const SignInComponent = ({ changeView }) => {
   const [userName, setUserName] = useState("");
@@ -36,32 +36,11 @@ const SignInComponent = ({ changeView }) => {
   };
 
   const submitLogin = async () => {
-    const requestOptions = {
-      method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-      body: JSON.stringify(
-        `grant_type=&username=${userName}&password=${password}&scope=&client_id=&client_secret=`
-      ),
-    };
+    const signInRequest = await signIn(userName, password);
 
-    const response = await fetch(
-      "https://api.gurule.rocks/token",
-      requestOptions
-    );
-
-    const data = await response.json();
-
-    if (!response.ok) {
-      setErrorMsg(data.detail);
+    if (signInRequest !== "Success") {
+      setErrorMsg(signInRequest);
     } else {
-      Cookie.set("token", data.access_token, { expires: 1 });
-      Cookie.set("type", data.token_type, { expires: 1 });
-      Cookie.set("username", userName, { expires: 1 });
-
       setTimeout(() => {
         setLoading(false);
         navigate("/Home");

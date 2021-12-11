@@ -7,6 +7,7 @@ import validator from "validator";
 import Loader from "react-loader-spinner";
 import Cookie from "js-cookie";
 import emailjs from "emailjs-com";
+import { signUp, signIn } from "../API/api";
 
 const SignupComponent = ({ changeView }) => {
   const [loading, setLoading] = useState(false);
@@ -16,17 +17,11 @@ const SignupComponent = ({ changeView }) => {
   const [confirmedPassword, setConfirmedPassword] = useState("");
   const [errorMsg, setErrorMsg] = useState("");
   let navigate = useNavigate();
-
-  const serviceId = process.env.REACT_APP_SERVICE_ID;
-  const userId = process.env.REACT_APP_USER_ID;
-  const template = process.env.REACT_APP_TEMPLATE;
   emailjs.init(process.env.REACT_APP_USER_ID);
 
-  const handleFormValidation = (e) => {
+  const handleFormValidation = () => {
     let error = false;
     setLoading(true);
-
-    e.preventDefault();
 
     if (email.length < 1) {
       error = true;
@@ -52,7 +47,7 @@ const SignupComponent = ({ changeView }) => {
 
     if (!error) {
       setErrorMsg("");
-      signUp(e);
+      newSignUp();
     } else {
       setLoading(false);
       setTimeout(() => {
@@ -61,64 +56,20 @@ const SignupComponent = ({ changeView }) => {
     }
   };
 
-  const signUp = async (e) => {
-    e.preventDefault();
-    const requestOptions = {
-      method: "POST",
-      mode: "cors", // no-cors, *cors, same-origin
-      headers: {
-        accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        username: `${userName}`,
-        email: `${email}`,
-        password: `${password}`,
-      }),
-    };
+  const newSignUp = async () => {
+    const signUpNewUser = await signUp(userName, email, password);
 
-    const response = await fetch(
-      "https://api.gurule.rocks/auth/signup",
-      requestOptions
-    );
-    const data = await response;
-
-    if (!response.ok) {
+    if (signUpNewUser !== "Success") {
+      setErrorMsg(signUpNewUser);
       setLoading(false);
-      if (data.status === 404) {
-        setErrorMsg("Username already exist");
-      } else {
-        setErrorMsg(data.detail[0].msg);
-      }
     } else {
-      const requestOptions = {
-        method: "POST",
-        mode: "cors", // no-cors, *cors, same-origin
-        headers: {
-          accept: "application/json",
-          "Content-Type": "application/x-www-form-urlencoded",
-        },
-        body: JSON.stringify(
-          `grant_type=&username=${userName}&password=${password}&scope=&client_id=&client_secret=`
-        ),
-      };
+      const signInRequest = await signIn(userName, password);
 
-      const response = await fetch(
-        "https://api.gurule.rocks/token",
-        requestOptions
-      );
-      const data = await response.json();
-
-      if (!response.ok) {
+      if (signInRequest !== "Success") {
+        setErrorMsg(signInRequest);
         setLoading(false);
-        setErrorMsg(data.detail);
       } else {
-        Cookie.set("token", data.access_token, { expires: 1 });
-        Cookie.set("type", data.token_type, { expires: 1 });
-        Cookie.set("username", userName, { expires: 1 });
-
         sendEmail();
-
         setTimeout(() => {
           setLoading(false);
           navigate("/Home");
@@ -127,6 +78,9 @@ const SignupComponent = ({ changeView }) => {
     }
   };
 
+  /**
+   * This sends out a welcome email. The provider is emailJs
+   */
   const sendEmail = () => {
     const information = {
       email: email,
