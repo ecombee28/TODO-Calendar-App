@@ -107,6 +107,7 @@ const SignupComponent = ({ changeView }) => {
     const data = await response.json();
 
     if (!response.ok) {
+      setLoading(false);
       setErrorMsg(data.detail);
     } else {
       window.sessionStorage.setItem("token", data.access_token);

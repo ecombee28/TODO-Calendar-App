@@ -14,7 +14,7 @@ export async function getAllEvents() {
   };
 
   const response = await fetch(
-    "http://api.gurule.rocks/events/events/",
+    "https://api.gurule.rocks/events/events/",
     requestOptions
   );
   const data = await response.json();
@@ -30,15 +30,15 @@ export async function getSingleEvent(id) {}
 
 export async function deleteEvent(id) {
   //curl -X 'DELETE' \
-  //   'http://api.gurule.rocks/events/events/61b2c38421f3f9da34391792' \
+  //   'https://api.gurule.rocks/events/events/61b2c38421f3f9da34391792' \
   //   -H 'accept: application/json' \
   //   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlY29tYmVlMDAiLCJleHAiOjE2MzkxMTM5MjV9.zC5z16_wkERN1hTHqqLh82Y2EVxyHFtyYdpSifbnw_8'
 }
 
 export async function editEvent(id) {
-  //http://api.gurule.rocks/events/events/61b2c24e21f3f9da3439178c/set
+  //http://api.gurule.rocks/events/events/id/set
   //     curl -X 'POST' \
-  //   'http://api.gurule.rocks/events/events/61b2c24e21f3f9da3439178c/set' \
+  //   'https://api.gurule.rocks/events/events/id/set' \
   //   -H 'accept: application/json' \
   //   -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJlY29tYmVlMDAiLCJleHAiOjE2MzkxMTM5MjV9.zC5z16_wkERN1hTHqqLh82Y2EVxyHFtyYdpSifbnw_8' \
   //   -H 'Content-Type: application/json' \
