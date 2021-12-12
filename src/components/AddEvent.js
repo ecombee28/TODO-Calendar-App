@@ -21,10 +21,10 @@ const AddEvent = ({ date, close }) => {
   const [eventType, setEventType] = useState("");
   const [showError, setShowError] = useState(false);
 
-  useEffect(() => {
-    setStartDate(date.start);
-    setEndDate(date.start);
-  }, [date]);
+  // useEffect(() => {
+  //   setStartDate(date.start);
+  //   setEndDate(date.start);
+  // }, [date]);
 
   const validateInput = () => {
     if (
@@ -74,6 +74,13 @@ const AddEvent = ({ date, close }) => {
   const addColor = (eventType, color) => {
     setColor(color);
     setEventType(eventType);
+  };
+
+  const addError = () => {
+    setShowError(true);
+    setTimeout(() => {
+      setShowError(false);
+    }, 5000);
   };
 
   return (

@@ -12,9 +12,11 @@ export default function DatePicker({ sDate, eDate, add }) {
   //this just adds 2 hours to the time so that it will show the
   //correct date on the calendar
   const sendDates = () => {
-    dates[0].setHours(dates[0].getHours() + 2);
-    dates[1].setHours(dates[1].getHours() + 2);
-    add(dates);
+    if (dates[0] !== null && dates[1] !== null) {
+      dates[0].setHours(dates[0].getHours() + 2);
+      dates[1].setHours(dates[1].getHours() + 2);
+      add(dates);
+    }
   };
 
   return (
