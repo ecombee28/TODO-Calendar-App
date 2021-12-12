@@ -10,7 +10,7 @@ import {
   faClipboard,
 } from "@fortawesome/free-regular-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { format, isEqual } from "date-fns";
+import { format } from "date-fns";
 import EditEvent from "./EditEvent";
 import { deleteEvent } from "../API/api";
 import { Context } from "../globalState/Store";

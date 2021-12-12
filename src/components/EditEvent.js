@@ -36,7 +36,6 @@ const EditEvent = ({ event, close }) => {
       title.length === 0 ||
       startDate.length === 0 ||
       endDate.length === 0 ||
-      notes.length === 0 ||
       color.length === 0
     ) {
       setShowError(true);

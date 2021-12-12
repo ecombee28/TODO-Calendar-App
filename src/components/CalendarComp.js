@@ -16,7 +16,6 @@ import EventList from "./EventList";
 import { getAllEvents } from "../API/api";
 import { Context } from "../globalState/Store";
 import { FilteredContext } from "../globalState/filteredEvents";
-import parseISO from "date-fns/parseISO";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
