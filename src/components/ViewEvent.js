@@ -17,8 +17,8 @@ import { Context } from "../globalState/Store";
 import { FilteredContext } from "../globalState/filteredEvents";
 
 const ViewEvent = ({ event, close, edit }) => {
-  const [events, setEvents] = useContext(Context);
-  const [filteredEvents, setFilteredEvents] = useContext(FilteredContext);
+  const [, setEvents] = useContext(Context);
+  const [, setFilteredEvents] = useContext(FilteredContext);
   const [showEditEvent, setShowEditEvent] = useState(false);
 
   const formatDates = () => {
@@ -29,7 +29,10 @@ const ViewEvent = ({ event, close, edit }) => {
     let endStr = endHour <= 11 ? "am" : "pm";
 
     if (event.allDay) {
-      if (!isEqual(event.start, event.end)) {
+      var sDate = format(new Date(event.start), "MMM dd ,yyyy");
+      var eDate = format(new Date(event.end), "MMM dd ,yyyy");
+
+      if (sDate !== eDate) {
         returnDate =
           format(new Date(event.start), "MMM dd ,yyyy") +
           " - " +

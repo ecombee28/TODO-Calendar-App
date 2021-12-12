@@ -16,6 +16,7 @@ import EventList from "./EventList";
 import { getAllEvents } from "../API/api";
 import { Context } from "../globalState/Store";
 import { FilteredContext } from "../globalState/filteredEvents";
+import parseISO from "date-fns/parseISO";
 
 const locales = {
   "en-US": require("date-fns/locale/en-US"),
@@ -55,11 +56,6 @@ function CalendarComp() {
     };
 
     getData();
-
-    return function cleanUp() {
-      setFilteredEvents("");
-      setEvents("");
-    };
   }, []);
 
   const viewEvent = (event) => {
@@ -113,6 +109,9 @@ function CalendarComp() {
     isHolidayChecked,
     isVacationChecked,
   ]);
+
+  // console.log("From calendar");
+  // console.log(filteredEvents);
 
   return (
     <div className={styles.main_container}>

@@ -7,18 +7,12 @@ import Stack from "@mui/material/Stack";
 import styles from "../Styles/Components_Style/dateTime.module.css";
 
 export default function DateTime({ sDate, eDate, add }) {
-  var [startDate, setStartDate] = useState("");
-  var [endDate, setEndDate] = useState("");
+  var [startDate, setStartDate] = useState(sDate);
+  var [endDate, setEndDate] = useState(eDate);
 
-  useEffect(() => {
-    setStartDate(sDate);
-    setEndDate(eDate);
-
-    return () => {
-      setStartDate("");
-      setEndDate("");
-    };
-  }, [sDate, eDate]);
+  const getTime = () => {
+    add(startDate, endDate);
+  };
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
@@ -31,15 +25,18 @@ export default function DateTime({ sDate, eDate, add }) {
             onChange={(start) => {
               setStartDate(start);
             }}
+            minDate={startDate}
           />
           <DateTimePicker
             renderInput={(params) => <TextField {...params} />}
             label="End Date and Time Selection"
             value={endDate}
-            onAccept={() => add(startDate, endDate)}
+            onAccept={getTime()}
             onChange={(end) => {
               setEndDate(end);
             }}
+            minDate={startDate}
+            minTime={startDate}
           />
         </div>
       </Stack>

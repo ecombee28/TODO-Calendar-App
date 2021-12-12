@@ -1,5 +1,18 @@
 import Cookie from "js-cookie";
 import { getFilteredEvents } from "../Lib/filterEvents";
+import format from "date-fns/format";
+
+// const formatDate = (start,end)=>{
+//   var dateStart, dateEnd;
+
+//   if (!editedEvent.all_day) {
+//     dateStart = editedEvent.start;
+//     dateEnd = editedEvent.end;
+//   } else {
+//     dateStart = format(editedEvent.start, "yyyy-MM-dd'T'HH:mm:ss");
+//     dateEnd = format(editedEvent.end, "yyyy-MM-dd'T'HH:mm:ss");
+//   }
+// }
 
 export async function getAllEvents() {
   const requestOptions = {
@@ -59,6 +72,16 @@ export async function deleteEvent(id) {
  * @returns
  */
 export async function addEvent(newEvent) {
+  var dateStart, dateEnd;
+
+  if (!newEvent.all_day) {
+    dateStart = format(newEvent.start, "yyyy-MM-dd'T'HH:mm:ss");
+    dateEnd = format(newEvent.end, "yyyy-MM-dd'T'HH:mm:ss");
+  } else {
+    dateStart = newEvent.start;
+    dateEnd = newEvent.end;
+  }
+
   const requestOptions = {
     method: "POST",
     mode: "cors", // no-cors, *cors, same-origin
@@ -76,8 +99,8 @@ export async function addEvent(newEvent) {
       name: newEvent.title,
       description: newEvent.eventDetail,
       time_details: {
-        start_time: newEvent.start,
-        end_time: newEvent.end,
+        start_time: dateStart,
+        end_time: dateEnd,
         all_day: newEvent.allDay,
       },
       presentation: {
@@ -106,6 +129,16 @@ export async function addEvent(newEvent) {
  * @returns
  */
 export async function editEvent(id, editedEvent) {
+  var dateStart, dateEnd;
+
+  if (!editedEvent.all_day) {
+    dateStart = format(editedEvent.start, "yyyy-MM-dd'T'HH:mm:ss");
+    dateEnd = format(editedEvent.end, "yyyy-MM-dd'T'HH:mm:ss");
+  } else {
+    dateStart = editedEvent.start;
+    dateEnd = editedEvent.end;
+  }
+
   const requestOptions = {
     method: "POST",
     mode: "cors", // no-cors, *cors, same-origin
@@ -123,8 +156,8 @@ export async function editEvent(id, editedEvent) {
       name: editedEvent.title,
       description: editedEvent.eventDetail,
       time_details: {
-        start_time: editedEvent.start,
-        end_time: editedEvent.end,
+        start_time: dateStart,
+        end_time: dateEnd,
         all_day: editedEvent.allDay,
       },
       presentation: {
@@ -167,7 +200,6 @@ export async function signIn(userName, password) {
   const data = await response.json();
 
   if (!response.ok) {
-    //setErrorMsg(data.detail);
     return data.detail;
   } else {
     Cookie.set("token", data.access_token, { expires: 1 });

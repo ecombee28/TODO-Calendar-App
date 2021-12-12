@@ -40,6 +40,7 @@ const SignInComponent = ({ changeView }) => {
 
     if (signInRequest !== "Success") {
       setErrorMsg(signInRequest);
+      setLoading(false);
     } else {
       setTimeout(() => {
         setLoading(false);
