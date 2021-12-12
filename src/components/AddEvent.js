@@ -1,4 +1,4 @@
-import React, { useState, useContext, useEffect } from "react";
+import React, { useState, useContext } from "react";
 import styles from "../Styles/Components_Style/addEvent.module.css";
 import { faTimes } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -69,13 +69,6 @@ const AddEvent = ({ date, close }) => {
   const addColor = (eventType, color) => {
     setColor(color);
     setEventType(eventType);
-  };
-
-  const addError = () => {
-    setShowError(true);
-    setTimeout(() => {
-      setShowError(false);
-    }, 5000);
   };
 
   return (
