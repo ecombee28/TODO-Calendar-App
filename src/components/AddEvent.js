@@ -21,11 +21,6 @@ const AddEvent = ({ date, close }) => {
   const [eventType, setEventType] = useState("");
   const [showError, setShowError] = useState(false);
 
-  // useEffect(() => {
-  //   setStartDate(date.start);
-  //   setEndDate(date.start);
-  // }, [date]);
-
   const validateInput = () => {
     if (
       title.length === 0 ||
